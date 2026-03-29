@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Translation Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1e2235;
+    --paper: #ffffff;
+    --cream: #f7f8fc;
+    --gold: #c9922a;
+    --gold-light: #e0aa40;
+    --red: #c0392b;
+    --green: #1a6e3c;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --shadow: rgba(0,0,0,0.06);
+    --shadow-md: rgba(0,0,0,0.12);
+    --success-bg: #d1fae5;
+    --error-bg: #fee2e2;
+    --nav-bg: #1e2235;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Amiri', serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; font-size: 16px; }
+
+  /* === MODALS === */
+  .overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(15,20,40,0.65); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+  .overlay.hidden { display: none; }
+  .modal-box { background: white; border-radius: 18px; padding: 2rem 1.7rem; width: 100%; max-width: 390px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.85) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+  .modal-box .micon { font-size: 2.2rem; margin-bottom: 0.7rem; }
+  .modal-box h2 { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--ink); margin-bottom: 0.3rem; }
+  .modal-box .msub { font-family: 'Amiri', serif; font-size: 0.9rem; color: var(--muted); margin-bottom: 1.3rem; line-height: 1.5; }
+  .modal-input { width: 100%; border: 2px solid var(--border-strong); border-radius: 10px; padding: 0.72rem 1rem; font-family: 'Amiri', serif; font-size: 1.05rem; color: var(--ink); text-align: center; direction: rtl; outline: none; margin-bottom: 1rem; transition: border-color 0.2s; background: var(--cream); }
+  .modal-input:focus { border-color: var(--accent); background: white; }
+  .mbtn-row { display: flex; gap: 0.55rem; }
+  .mbtn { flex: 1; padding: 0.75rem; border: none; border-radius: 10px; font-family: 'Amiri', serif; font-size: 1rem; cursor: pointer; transition: all 0.15s; font-weight: 700; }
+  .mbtn.primary { background: var(--accent); color: white; }
+  .mbtn.primary:hover { background: #1d4ed8; }
+  .mbtn.ghost { background: var(--cream); color: var(--muted); border: 1px solid var(--border); }
+  .mbtn.ghost:hover { background: var(--border); color: var(--ink); }
+
+  /* === HEADER === */
+  header { background: white; border-bottom: 1px solid var(--border); padding: 0.85rem 1.1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 10px var(--shadow); }
+  .header-title { font-family: 'Playfair Display', serif; font-size: clamp(0.9rem, 3vw, 1.25rem); font-weight: 900; color: var(--ink); direction: ltr; }
+  #exam-status { display: flex; align-items: center; gap: 0.55rem; background: var(--accent-light); border-radius: 10px; padding: 0.42rem 0.85rem; flex-shrink: 0; }
+  .exam-name-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: var(--accent); font-weight: 600; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .exam-timer { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink); font-weight: 700; background: white; padding: 0.18rem 0.5rem; border-radius: 6px; direction: ltr; min-width: 55px; text-align: center; }
+  .hbtn { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; border: none; border-radius: 6px; padding: 0.22rem 0.52rem; cursor: pointer; transition: opacity 0.2s; }
+  .hbtn.end { background: var(--red); color: white; }
+  .hbtn.reg { background: var(--green); color: white; }
+  .hbtn:hover { opacity: 0.8; }
+
+  /* === NAV === */
+  nav { position: sticky; top: 54px; z-index: 40; background: var(--nav-bg); display: flex; overflow-x: auto; scrollbar-width: none; border-bottom: 2px solid var(--gold); }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { flex-shrink: 0; background: none; border: none; color: #9ca3af; font-family: 'Amiri', serif; font-size: 0.87rem; padding: 0.68rem 0.9rem; cursor: pointer; transition: all 0.2s; border-bottom: 3px solid transparent; white-space: nowrap; }
+  nav button:hover { color: white; background: rgba(255,255,255,0.05); }
+  nav button.active { color: var(--gold-light); border-bottom-color: var(--gold-light); }
+
+  /* hamburger — hidden on desktop */
+  #nav-toggle { display: none; }
+  #nav-overlay { display: none; }
+
+  @media (max-width: 640px) {
+    /* hide horizontal scrolling nav on mobile */
+    nav { display: none; overflow: visible; position: static; border-bottom: none; }
+    nav.mobile-open {
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(78vw, 270px); z-index: 200;
+      background: var(--nav-bg); border-left: 2px solid var(--gold);
+      overflow-y: auto; padding-top: 3.5rem;
+      animation: slideIn 0.25s ease;
+      box-shadow: -6px 0 24px rgba(0,0,0,0.35);
+    }
+    @keyframes slideIn { from{transform:translateX(100%)} to{transform:translateX(0)} }
+    nav.mobile-open button {
+      width: 100%; text-align: right; padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06); border-right: none;
+      font-size: 1rem;
+    }
+    nav.mobile-open button.active {
+      background: rgba(201,146,42,0.15); border-right: 4px solid var(--gold-light);
+      color: var(--gold-light);
+    }
+    /* close X inside drawer */
+    #nav-close-btn {
+      position: absolute; top: 0.75rem; left: 0.85rem;
+      background: none; border: none; color: #9ca3af;
+      font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.5rem;
+      line-height: 1;
+    }
+    /* dim overlay */
+    #nav-overlay {
+      display: none; position: fixed; inset: 0; z-index: 199;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(2px);
+    }
+    #nav-overlay.open { display: block; }
+    /* hamburger button in header */
+    #nav-toggle {
+      display: flex; flex-direction: column; justify-content: center; gap: 4px;
+      background: var(--nav-bg); border: none; border-radius: 7px;
+      padding: 0.38rem 0.5rem; cursor: pointer; flex-shrink: 0;
+    }
+    #nav-toggle span {
+      display: block; width: 20px; height: 2px;
+      background: var(--gold-light); border-radius: 2px;
+      transition: all 0.22s;
+    }
+    #nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    #nav-toggle.open span:nth-child(2) { opacity: 0; }
+    #nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  }
+
+  /* === MAIN === */
+  main { max-width: 960px; margin: 0 auto; padding: 1.1rem 0.85rem 5rem; }
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--ink); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1.1rem; direction: rtl; text-align: right; }
+
+  /* === TABLES === */
+  .data-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 10px var(--shadow); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  .data-table thead { background: var(--nav-bg); color: white; }
+  .data-table th { padding: 0.62rem 0.82rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.05rem; font-weight: 600; }
+  .data-table td { padding: 0.58rem 0.82rem; border-bottom: 1px solid var(--border); font-size: 0.98rem; vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #f0f4ff; }
+  .term-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.83rem; color: var(--accent); direction: ltr; font-weight: 600; }
+  .term-ar { font-family: 'Amiri', serif; font-size: 1.03rem; color: var(--ink); text-align: right; direction: rtl; }
+  .num-cell { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); text-align: center; direction: ltr; min-width: 28px; }
+
+  /* === LAW CARDS === */
+  .law-grid { display: grid; gap: 0.72rem; }
+  .law-card { background: white; border: 1px solid var(--border); border-left: 4px solid var(--gold); padding: 0.88rem 1.05rem; border-radius: 10px; box-shadow: 0 2px 7px var(--shadow); transition: box-shadow 0.2s, transform 0.15s; direction: ltr; }
+  .law-card:hover { box-shadow: 0 4px 14px var(--shadow-md); transform: translateY(-2px); }
+  .law-card.public { border-left-color: var(--accent); }
+  .law-card.private { border-left-color: var(--green); }
+  .law-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.65rem; margin-bottom: 0.42rem; flex-wrap: wrap; }
+  .law-name-en { font-family: 'Playfair Display', serif; font-size: 0.96rem; font-weight: 700; color: var(--ink); }
+  .law-name-ar { font-family: 'Amiri', serif; font-size: 0.9rem; color: var(--muted); direction: rtl; }
+  .law-def-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--accent); line-height: 1.6; margin-bottom: 0.32rem; }
+  .law-def-ar { font-family: 'Amiri', serif; font-size: 0.9rem; color: var(--muted); direction: rtl; text-align: right; line-height: 1.7; border-top: 1px dashed var(--border); padding-top: 0.32rem; margin-top: 0.32rem; }
+  .branch-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.57rem; padding: 0.16rem 0.42rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05rem; flex-shrink: 0; }
+  .branch-label.pub { background: var(--accent-light); color: var(--accent); }
+  .branch-label.priv { background: #d1fae5; color: var(--green); }
+
+  /* === SENTENCES === */
+  .sentence-row { background: white; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 0.62rem; padding: 0.82rem 0.95rem; direction: ltr; box-shadow: 0 1px 4px var(--shadow); transition: box-shadow 0.2s; }
+  .sentence-row:hover { box-shadow: 0 3px 10px var(--shadow-md); }
+  .sentence-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--accent); margin-bottom: 0.32rem; }
+  .sentence-ar { font-family: 'Amiri', serif; font-size: 0.98rem; direction: rtl; text-align: right; color: var(--ink); border-top: 1px dashed var(--border); padding-top: 0.28rem; margin-top: 0.28rem; }
+  .s-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-bottom: 0.18rem; }
+
+  /* === NOTICE === */
+  .notice { background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid var(--gold); padding: 0.82rem 0.95rem; margin-bottom: 1.05rem; direction: rtl; font-family: 'Amiri', serif; font-size: 0.93rem; line-height: 1.7; border-radius: 8px; }
+  .notice strong { color: var(--red); }
+
+  /* === BUTTONS === */
+  .btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; padding: 0.46rem 0.95rem; border: 2px solid var(--ink); background: var(--ink); color: white; cursor: pointer; border-radius: 7px; letter-spacing: 0.03rem; transition: all 0.15s; }
+  .btn:hover { background: var(--accent); border-color: var(--accent); }
+  .btn.secondary { background: transparent; color: var(--ink); }
+  .btn.secondary:hover { background: var(--ink); color: white; }
+
+  /* === FLASHCARDS === */
+  .flashcard-container { perspective: 1000px; max-width: 450px; margin: 0 auto 1.05rem; height: 182px; cursor: pointer; }
+  .flashcard-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .flashcard-container.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position: absolute; inset: 0; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.42rem; border: 2px solid var(--border); border-radius: 14px; background: white; padding: 1.3rem; text-align: center; box-shadow: 0 4px 14px var(--shadow); }
+  .flashcard-back { transform: rotateY(180deg); background: var(--nav-bg); color: white; border-color: var(--nav-bg); }
+  .fc-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1rem; color: var(--muted); }
+  .flashcard-back .fc-label { color: #9ca3af; }
+  .fc-term { font-size: 1.22rem; font-weight: 700; color: var(--ink); }
+  .fc-term.ar { font-family: 'Amiri', serif; direction: rtl; color: white; }
+  .fc-term.en { font-family: 'IBM Plex Mono', monospace; color: var(--accent); font-size: 1.02rem; }
+  .fc-sub { font-family: 'Amiri', serif; font-size: 0.8rem; opacity: 0.6; }
+  .fc-hint { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: center; margin-bottom: 0.42rem; direction: ltr; }
+  .flashcard-nav { display: flex; align-items: center; justify-content: center; gap: 0.72rem; margin-bottom: 0.72rem; flex-wrap: wrap; }
+  .fc-counter { font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: var(--muted); direction: ltr; min-width: 50px; text-align: center; }
+
+  /* === QUIZ SETUP === */
+  .src-btn, .dir-btn {
+    font-family: 'Amiri', serif; font-size: 0.9rem; padding: 0.5rem 0.9rem;
+    border: 2px solid var(--border-strong); border-radius: 8px; background: white;
+    color: var(--ink); cursor: pointer; transition: all 0.15s; direction: rtl;
+  }
+  .src-btn:hover, .dir-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .src-btn.active { background: var(--accent); border-color: var(--accent); color: white; font-weight: 700; }
+  .dir-btn.active { background: var(--ink); border-color: var(--ink); color: white; font-weight: 700; }
+
+  /* === QUIZ === */
+  .quiz-wrapper { max-width: 680px; margin: 0 auto; }
+  .quiz-controls { display: flex; gap: 0.52rem; margin-bottom: 1.05rem; flex-wrap: wrap; }
+  .quiz-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.35rem; box-shadow: 0 4px 18px var(--shadow); min-height: 225px; display: flex; flex-direction: column; justify-content: space-between; }
+  .quiz-progress { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); direction: ltr; margin-bottom: 0.72rem; }
+  .quiz-question { font-size: 1.18rem; font-weight: 700; text-align: center; padding: 0.65rem 0; line-height: 1.4; }
+  .quiz-question.ar { font-family: 'Amiri', serif; direction: rtl; }
+  .quiz-question.en { font-family: 'Playfair Display', serif; direction: ltr; }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.42rem; margin-top: 0.85rem; }
+  .quiz-option { background: var(--cream); border: 2px solid var(--border); border-radius: 8px; padding: 0.58rem 0.62rem; cursor: pointer; font-family: 'Amiri', serif; font-size: 0.91rem; text-align: center; transition: all 0.15s; direction: rtl; line-height: 1.4; }
+  .quiz-option.en-opt { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; direction: ltr; }
+  .quiz-option:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
+  .quiz-option.correct { background: var(--success-bg); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .quiz-option.wrong { background: var(--error-bg); border-color: var(--red); color: var(--red); }
+  .quiz-option:disabled { cursor: default; }
+  .quiz-feedback { text-align: center; margin-top: 0.72rem; font-family: 'Amiri', serif; font-size: 1rem; min-height: 1.3rem; direction: rtl; color: var(--green); font-weight: bold; }
+  .quiz-feedback.wrong { color: var(--red); }
+  .quiz-next-btn { display: none; margin: 0.72rem auto 0; }
+  .score-display { text-align: center; padding: 1.8rem 1rem; }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 3.8rem; font-weight: 900; color: var(--gold); line-height: 1; direction: ltr; }
+  .score-label { font-family: 'Amiri', serif; font-size: 1.08rem; color: var(--muted); margin-top: 0.32rem; }
+
+  /* === REVIEW === */
+  .review-section { margin-top: 1.1rem; }
+  .review-section h3 { font-family: 'Amiri', serif; font-size: 1.08rem; color: var(--ink); direction: rtl; margin: 0 0 0.65rem; }
+  .review-item { background: white; border-radius: 10px; margin-bottom: 0.65rem; border: 2px solid var(--border); overflow: hidden; box-shadow: 0 1px 4px var(--shadow); }
+  .review-item.was-correct { border-color: var(--green); }
+  .review-item.was-wrong   { border-color: var(--red); }
+  .review-header { display: flex; align-items: center; gap: 0.55rem; padding: 0.55rem 0.85rem; direction: ltr; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .review-item.was-correct .review-header { background: #f0fdf4; }
+  .review-item.was-wrong   .review-header { background: #fff5f5; }
+  .review-q { padding: 0.52rem 0.85rem; font-family: 'Amiri', serif; font-size: 0.98rem; color: var(--ink); }
+  .review-q.en { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; direction: ltr; color: var(--accent); }
+  .review-q.ar { direction: rtl; text-align: right; }
+  .review-answers { padding: 0.38rem 0.85rem 0.65rem; display: flex; flex-direction: column; gap: 0.28rem; }
+  .review-ans { font-family: 'Amiri', serif; font-size: 0.9rem; padding: 0.28rem 0.55rem; border-radius: 6px; }
+  .review-ans.user-correct { background: var(--success-bg); color: var(--green); direction: rtl; font-weight: bold; }
+  .review-ans.user-wrong   { background: var(--error-bg);   color: var(--red);   direction: rtl; }
+  .review-ans.correct-ans  { background: var(--success-bg); color: var(--green); direction: rtl; font-weight: bold; }
+  .review-ans.en-ans { direction: ltr; text-align: left; }
+  .review-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: var(--muted); display: block; margin-bottom: 0.08rem; }
+
+  /* === LEADERBOARD === */
+  .lb-stats-row { display: flex; gap: 0.65rem; margin-bottom: 1.05rem; flex-wrap: wrap; }
+  .lb-stat-card { flex: 1; min-width: 105px; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.82rem; text-align: center; box-shadow: 0 2px 6px var(--shadow); }
+  .lb-stat-num { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: var(--gold); direction: ltr; }
+  .lb-stat-label { font-family: 'Amiri', serif; font-size: 0.8rem; color: var(--muted); margin-top: 0.12rem; direction: rtl; }
+  .lb-actions { display: flex; gap: 0.52rem; margin-top: 0.85rem; justify-content: flex-end; flex-wrap: wrap; align-items: center; }
+  .rank-badge { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.82rem; }
+  .rank-badge.gold   { color: #d97706; }
+  .rank-badge.silver { color: #6b7280; }
+  .rank-badge.bronze { color: #92400e; }
+  .lb-name-cell  { font-size: 1.02rem; direction: rtl; }
+  .lb-time-cell, .lb-score-cell, .lb-date-cell { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--muted); direction: ltr; }
+  .lb-score-cell { color: var(--accent); font-weight: 700; }
+  .lb-empty { text-align: center; padding: 2.3rem; font-family: 'Amiri', serif; font-size: 1rem; color: var(--muted); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 600px) {
+    header { padding: 0.65rem 0.85rem; }
+    main { padding: 0.9rem 0.55rem 5rem; }
+    .flashcard-container { height: 162px; }
+    .law-card-header { flex-direction: column; }
+    .score-num { font-size: 3rem; }
+    #exam-status { padding: 0.32rem 0.6rem; gap: 0.42rem; }
+    .exam-name-tag { max-width: 85px; }
+    .quiz-options { grid-template-columns: 1fr; }
+    .data-table { font-size: 0.88rem; }
+    .data-table td { padding: 0.42rem 0.55rem; }
+    .header-title { font-size: 0.88rem; }
+    .src-btn, .dir-btn { font-size: 0.82rem; padding: 0.42rem 0.7rem; }
+  }
+  /* === TTS === */
+  .tts-btn { background:none;border:none;cursor:pointer;font-size:0.88rem;padding:0.1rem 0.25rem;opacity:0.45;transition:opacity 0.15s,transform 0.1s;border-radius:4px;line-height:1; }
+  .tts-btn:hover { opacity:1;transform:scale(1.2); }
+  .tts-btn.speaking { opacity:1;animation:ttspulse 0.55s infinite alternate; }
+  @keyframes ttspulse { from{transform:scale(1)}to{transform:scale(1.3)} }
+  /* === ADMIN PANEL === */
+  #admin-panel-overlay { position:fixed;inset:0;z-index:3000;background:rgba(10,15,30,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:0.8rem; }
+  #admin-panel-overlay.hidden { display:none; }
+  .admin-panel { background:white;border-radius:16px;width:100%;max-width:780px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.35); }
+  .ap-header { background:var(--nav-bg);color:white;padding:0.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0; }
+  .ap-header h2 { font-family:'Playfair Display',serif;font-size:1.1rem; }
+  .ap-close { background:none;border:none;color:#9ca3af;font-size:1.4rem;cursor:pointer;line-height:1;padding:0.1rem 0.3rem; }
+  .ap-close:hover { color:white; }
+  .ap-tabs { display:flex;overflow-x:auto;scrollbar-width:none;background:#f8fafc;border-bottom:1px solid var(--border);flex-shrink:0; }
+  .ap-tabs::-webkit-scrollbar { display:none; }
+  .ap-tab { flex-shrink:0;background:none;border:none;padding:0.6rem 0.9rem;font-family:'Amiri',serif;font-size:0.86rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap; }
+  .ap-tab.active { color:var(--accent);border-bottom-color:var(--accent);font-weight:700; }
+  .ap-body { flex:1;overflow-y:auto;padding:1.1rem; }
+  .ap-section { display:none; }
+  .ap-section.active { display:block; }
+  .ap-field { margin-bottom:0.8rem; }
+  .ap-field label { display:block;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:0.28rem;direction:ltr; }
+  .ap-input { width:100%;border:1.5px solid var(--border-strong);border-radius:8px;padding:0.55rem 0.75rem;font-family:'Amiri',serif;font-size:0.93rem;color:var(--ink);outline:none;transition:border-color 0.2s;background:var(--cream); }
+  .ap-input:focus { border-color:var(--accent);background:white; }
+  textarea.ap-input { min-height:80px;resize:vertical; }
+  .ap-btn { font-family:'IBM Plex Mono',monospace;font-size:0.76rem;padding:0.48rem 1rem;border:2px solid var(--ink);background:var(--ink);color:white;cursor:pointer;border-radius:7px;transition:all 0.15s; }
+  .ap-btn:hover { background:var(--accent);border-color:var(--accent); }
+  .ap-btn.danger { background:var(--red);border-color:var(--red); }
+  .ap-btn.success { background:var(--green);border-color:var(--green); }
+  .ap-row { display:flex;gap:0.55rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:0.8rem; }
+  .ap-card { background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:0.8rem;margin-bottom:0.6rem; }
+  .ap-card-title { font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--accent);margin-bottom:0.35rem;direction:ltr; }
+  .ap-msg { font-family:'Amiri',serif;font-size:0.88rem;padding:0.45rem 0.75rem;border-radius:7px;margin-top:0.55rem;direction:rtl; }
+  .ap-msg.ok { background:var(--success-bg);color:var(--green); }
+  .ap-msg.err { background:var(--error-bg);color:var(--red); }
+  .media-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.6rem;margin-top:0.75rem; }
+  .media-item { border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted); }
+  .media-item img,.media-item video { width:100%;max-height:85px;object-fit:cover;display:block; }
+  .media-item .ml { padding:0.22rem 0.38rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block; }
+  .media-item .mdel { background:var(--error-bg);color:var(--red);border:none;width:100%;cursor:pointer;padding:0.18rem;font-size:0.62rem;font-family:'IBM Plex Mono',monospace; }
+  .exam-builder-q { background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:0.7rem;margin-bottom:0.55rem;position:relative; }
+  .exam-builder-q .rm-q { position:absolute;top:0.4rem;left:0.4rem;background:none;border:none;color:var(--red);cursor:pointer;font-size:1rem; }
+
+  /* === FRIENDS & CHAT MODALS === */
+  .big-modal-box { background:white; border-radius:18px; width:100%; max-width:480px; max-height:85vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.25); animation:modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+  .bm-header { background:var(--nav-bg); color:white; padding:0.85rem 1.1rem; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .bm-header h3 { font-family:'Playfair Display',serif; font-size:1.05rem; }
+  .bm-close { background:none; border:none; color:#9ca3af; font-size:1.3rem; cursor:pointer; padding:0.1rem 0.3rem; line-height:1; }
+  .bm-close:hover { color:white; }
+  .bm-body { flex:1; overflow-y:auto; padding:1rem; }
+  .bm-footer { border-top:1px solid var(--border); padding:0.75rem 1rem; display:flex; gap:0.5rem; background:white; flex-shrink:0; }
+  .bm-input { flex:1; border:1.5px solid var(--border-strong); border-radius:8px; padding:0.55rem 0.75rem; font-family:'Amiri',serif; font-size:0.95rem; outline:none; direction:rtl; }
+  .bm-input:focus { border-color:var(--accent); }
+  .bm-send-btn { background:var(--accent); color:white; border:none; border-radius:8px; padding:0.55rem 1rem; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; transition:background 0.15s; }
+  .bm-send-btn:hover { background:#1d4ed8; }
+  /* friend items */
+  .friend-item { display:flex; align-items:center; gap:0.65rem; padding:0.65rem 0; border-bottom:1px solid var(--border); direction:rtl; }
+  .friend-item:last-child { border-bottom:none; }
+  .friend-avatar { width:36px; height:36px; border-radius:50%; background:var(--accent-light); display:flex; align-items:center; justify-content:center; font-family:'Amiri',serif; font-size:1rem; color:var(--accent); font-weight:700; flex-shrink:0; }
+  .friend-name { font-family:'Amiri',serif; font-size:1rem; color:var(--ink); flex:1; }
+  .friend-status { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; padding:0.15rem 0.45rem; border-radius:10px; }
+  .friend-status.online { background:#d1fae5; color:#065f46; }
+  .friend-status.offline { background:var(--border); color:var(--muted); }
+  .friend-req-btn { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; padding:0.2rem 0.55rem; border-radius:5px; cursor:pointer; border:1px solid var(--accent); color:var(--accent); background:transparent; transition:all 0.15s; }
+  .friend-req-btn:hover { background:var(--accent); color:white; }
+  .friend-req-btn.pending { border-color:var(--muted); color:var(--muted); cursor:default; }
+  /* chat messages */
+  .chat-msg { margin-bottom:0.7rem; display:flex; flex-direction:column; }
+  .chat-msg.mine { align-items:flex-end; }
+  .chat-msg.theirs { align-items:flex-start; }
+  .chat-bubble { max-width:75%; padding:0.55rem 0.85rem; border-radius:14px; font-family:'Amiri',serif; font-size:0.97rem; line-height:1.5; direction:rtl; word-break:break-word; }
+  .chat-msg.mine .chat-bubble { background:var(--accent); color:white; border-bottom-right-radius:4px; }
+  .chat-msg.theirs .chat-bubble { background:var(--cream); color:var(--ink); border-bottom-left-radius:4px; border:1px solid var(--border); }
+  .chat-sender { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--muted); margin-bottom:0.15rem; direction:ltr; }
+  .chat-time { font-family:'IBM Plex Mono',monospace; font-size:0.56rem; color:var(--muted); margin-top:0.15rem; direction:ltr; }
+  .chat-date-sep { text-align:center; font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--muted); margin:0.5rem 0; }
+  .chat-tab-bar { display:flex; border-bottom:1px solid var(--border); background:#f8fafc; flex-shrink:0; }
+  .chat-tab { flex:1; background:none; border:none; padding:0.6rem; font-family:'Amiri',serif; font-size:0.85rem; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; transition:all 0.15s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .chat-tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:700; }
+  .chat-empty { text-align:center; padding:2.5rem 1rem; font-family:'Amiri',serif; font-size:1rem; color:var(--muted); }
+  /* add friend search */
+  .search-input { width:100%; border:1.5px solid var(--border-strong); border-radius:8px; padding:0.55rem 0.75rem; font-family:'Amiri',serif; font-size:0.95rem; outline:none; direction:rtl; margin-bottom:0.8rem; }
+  .search-input:focus { border-color:var(--accent); }
+
+  /* ══ SOCIAL / PROFILE ══ */
+  .social-modal-box {
+    background:white; border-radius:18px; width:100%; max-width:560px;
+    max-height:90vh; display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    animation:modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .sm-header {
+    background:var(--nav-bg); color:white; padding:0.85rem 1.1rem;
+    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+  }
+  .sm-header h3 { font-family:'Playfair Display',serif; font-size:1.05rem; }
+  .sm-close { background:none;border:none;color:#9ca3af;font-size:1.3rem;cursor:pointer;padding:0.1rem 0.3rem;line-height:1; }
+  .sm-close:hover { color:white; }
+  .sm-body { flex:1; overflow-y:auto; }
+  /* Profile cover + avatar */
+  .profile-cover {
+    height:110px; background:linear-gradient(135deg,#1e2235 0%,#2563eb 100%);
+    position:relative; flex-shrink:0;
+  }
+  .profile-avatar-wrap {
+    position:absolute; bottom:-30px; right:16px;
+    width:64px; height:64px;
+  }
+  .profile-avatar {
+    width:64px; height:64px; border-radius:50%;
+    border:3px solid white; background:var(--accent-light);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.6rem; font-weight:700; color:var(--accent);
+    overflow:hidden; cursor:pointer; position:relative;
+  }
+  .profile-avatar img { width:100%; height:100%; object-fit:cover; }
+  .avatar-edit-btn {
+    position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.45);
+    color:white; font-size:0.55rem; text-align:center; padding:3px 0;
+    font-family:'IBM Plex Mono',monospace; letter-spacing:0.05rem;
+    opacity:0; transition:opacity 0.15s; cursor:pointer;
+  }
+  .profile-avatar:hover .avatar-edit-btn { opacity:1; }
+  .profile-info { padding:2.5rem 1rem 0.8rem; direction:rtl; }
+  .profile-username { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:900; color:var(--ink); }
+  .profile-bio { font-family:'Amiri',serif; font-size:0.92rem; color:var(--muted); margin-top:0.2rem; white-space:pre-wrap; }
+  .profile-stats { display:flex; gap:1.2rem; margin-top:0.6rem; }
+  .pstat { text-align:center; }
+  .pstat-num { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:900; color:var(--ink); direction:ltr; }
+  .pstat-label { font-family:'IBM Plex Mono',monospace; font-size:0.58rem; color:var(--muted); }
+  .profile-actions { padding:0 1rem 0.8rem; display:flex; gap:0.5rem; direction:rtl; }
+  .profile-tab-bar { display:flex; border-bottom:1px solid var(--border); background:#f8fafc; flex-shrink:0; }
+  .profile-tab { flex:1; background:none; border:none; padding:0.65rem; font-family:'Amiri',serif; font-size:0.9rem; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; transition:all 0.15s; }
+  .profile-tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:700; }
+  /* Posts feed */
+  .feed-section { padding:0.8rem; }
+  .post-composer {
+    background:white; border:1px solid var(--border); border-radius:12px;
+    padding:0.9rem; margin-bottom:1rem; box-shadow:0 1px 4px var(--shadow);
+  }
+  .post-composer-row { display:flex; gap:0.6rem; align-items:flex-start; direction:rtl; }
+  .post-avatar-sm {
+    width:36px; height:36px; border-radius:50%; flex-shrink:0;
+    background:var(--accent-light); display:flex; align-items:center;
+    justify-content:center; font-weight:700; color:var(--accent); font-size:0.95rem;
+    overflow:hidden;
+  }
+  .post-avatar-sm img { width:100%; height:100%; object-fit:cover; }
+  .post-textarea {
+    flex:1; border:1.5px solid var(--border); border-radius:8px;
+    padding:0.6rem 0.75rem; font-family:'Amiri',serif; font-size:0.97rem;
+    resize:none; outline:none; direction:rtl; min-height:70px; color:var(--ink);
+    transition:border-color 0.2s;
+  }
+  .post-textarea:focus { border-color:var(--accent); }
+  .post-composer-actions { display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; direction:rtl; gap:0.5rem; }
+  .post-img-preview { max-width:100%; border-radius:8px; margin-top:0.5rem; max-height:200px; object-fit:cover; display:none; }
+  /* Post card */
+  .post-card {
+    background:white; border:1px solid var(--border); border-radius:12px;
+    margin-bottom:0.8rem; box-shadow:0 1px 4px var(--shadow); overflow:hidden;
+    transition:box-shadow 0.2s;
+  }
+  .post-card:hover { box-shadow:0 3px 12px var(--shadow-md); }
+  .post-header { display:flex; align-items:center; gap:0.6rem; padding:0.75rem 0.85rem 0.4rem; direction:rtl; }
+  .post-author-name { font-family:'Amiri',serif; font-size:1rem; font-weight:700; color:var(--ink); cursor:pointer; }
+  .post-author-name:hover { color:var(--accent); }
+  .post-time { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:var(--muted); direction:ltr; }
+  .post-body { padding:0.2rem 0.85rem 0.75rem; font-family:'Amiri',serif; font-size:1rem; color:var(--ink); direction:rtl; line-height:1.7; white-space:pre-wrap; word-break:break-word; }
+  .post-image { width:100%; max-height:280px; object-fit:cover; display:block; }
+  .post-actions { display:flex; gap:0; border-top:1px solid var(--border); }
+  .post-action-btn {
+    flex:1; background:none; border:none; padding:0.55rem;
+    font-family:'Amiri',serif; font-size:0.88rem; color:var(--muted);
+    cursor:pointer; transition:all 0.15s; display:flex; align-items:center;
+    justify-content:center; gap:0.3rem;
+  }
+  .post-action-btn:hover { background:var(--cream); color:var(--accent); }
+  .post-action-btn.liked { color:#e11d48; }
+  .post-comments { padding:0 0.85rem; border-top:1px solid var(--border); display:none; }
+  .post-comments.open { display:block; }
+  .comment-item { display:flex; gap:0.5rem; padding:0.5rem 0; border-bottom:1px dashed var(--border); direction:rtl; }
+  .comment-item:last-child { border-bottom:none; }
+  .comment-bubble { background:var(--cream); border-radius:8px; padding:0.4rem 0.65rem; flex:1; }
+  .comment-author { font-family:'IBM Plex Mono',monospace; font-size:0.63rem; color:var(--accent); margin-bottom:0.15rem; direction:ltr; }
+  .comment-text { font-family:'Amiri',serif; font-size:0.92rem; color:var(--ink); direction:rtl; }
+  .comment-input-row { display:flex; gap:0.4rem; padding:0.5rem 0; direction:rtl; }
+  .comment-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:0.4rem 0.65rem; font-family:'Amiri',serif; font-size:0.9rem; outline:none; direction:rtl; }
+  .comment-input:focus { border-color:var(--accent); }
+  /* Groups */
+  .group-card {
+    background:white; border:1px solid var(--border); border-radius:12px;
+    padding:0.9rem; margin-bottom:0.7rem; box-shadow:0 1px 4px var(--shadow);
+    display:flex; align-items:center; gap:0.8rem; direction:rtl; cursor:pointer;
+    transition:box-shadow 0.15s;
+  }
+  .group-card:hover { box-shadow:0 3px 12px var(--shadow-md); }
+  .group-icon { width:44px; height:44px; border-radius:10px; background:var(--accent-light); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+  .group-name { font-family:'Amiri',serif; font-size:1rem; font-weight:700; color:var(--ink); }
+  .group-meta { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; color:var(--muted); direction:ltr; margin-top:0.15rem; }
+  .group-join-btn { margin-right:auto; font-family:'IBM Plex Mono',monospace; font-size:0.68rem; padding:0.25rem 0.65rem; border-radius:6px; cursor:pointer; border:1px solid var(--accent); color:var(--accent); background:transparent; transition:all 0.15s; flex-shrink:0; }
+  .group-join-btn:hover { background:var(--accent); color:white; }
+  .group-join-btn.joined { border-color:var(--green); color:var(--green); }
+  .group-join-btn.joined:hover { background:var(--green); color:white; }
+  /* Feed tabs */
+  .feed-tabs { display:flex; background:white; border-bottom:2px solid var(--border); position:sticky; top:0; z-index:5; }
+  .feed-tab { flex:1; background:none; border:none; padding:0.75rem; font-family:'Amiri',serif; font-size:0.92rem; cursor:pointer; color:var(--muted); border-bottom:3px solid transparent; transition:all 0.15s; }
+  .feed-tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:700; }
+  /* header social btns */
+  .hbtn.social { background:#1e2235; color:#c9a84c; border:1px solid #c9a84c; }
+  .hbtn.social:hover { background:#c9a84c; color:#1e2235; }
+  /* notify badge */
+  .notif-dot { display:inline-block; width:8px; height:8px; background:#ef4444; border-radius:50%; margin-right:2px; animation:pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  /* admin table edit */
+  .edit-row-btn { background:none; border:1px solid var(--accent); color:var(--accent); border-radius:5px; padding:0.15rem 0.45rem; font-size:0.65rem; cursor:pointer; font-family:'IBM Plex Mono',monospace; }
+  .edit-row-btn:hover { background:var(--accent); color:white; }
+  .inline-edit-input { border:1.5px solid var(--accent); border-radius:5px; padding:0.2rem 0.4rem; font-family:'Amiri',serif; font-size:0.95rem; width:100%; outline:none; }
+
+</style>
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div id="auth-modal" class="overlay">
+  <div class="modal-box" style="max-width:420px">
+    <div class="micon">⚖️</div>
+    <h2 id="auth-modal-title">تسجيل الدخول</h2>
+    <p class="msub" id="auth-modal-sub">أدخل اسمك وكلمة السر للدخول</p>
+    <div id="auth-error" style="display:none;background:#fee2e2;color:#b91c1c;border-radius:8px;padding:0.5rem 0.8rem;font-family:'Amiri',serif;font-size:0.9rem;margin-bottom:0.7rem;direction:rtl"></div>
+    <input class="modal-input" type="text" id="auth-username" placeholder="الاسم" maxlength="40" autocomplete="off" />
+    <input class="modal-input" type="password" id="auth-password" placeholder="كلمة السر" maxlength="40" autocomplete="off" style="margin-bottom:0.5rem" />
+    <div class="mbtn-row" style="margin-bottom:0.6rem">
+      <button class="mbtn primary" id="auth-submit-btn" onclick="authSubmit()">دخول</button>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#9ca3af;direction:ltr;cursor:pointer" onclick="toggleAuthMode()" id="auth-switch-link">
+      ليس لديك حساب؟ <span style="color:var(--accent);text-decoration:underline">إنشاء حساب جديد</span>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL (leaderboard clear) -->
+<div id="admin-modal" class="overlay hidden">
+  <div class="modal-box">
+    <div class="micon">🔐</div>
+    <h2>Admin</h2>
+    <p class="msub">أدخل كلمة السر لمسح بيانات المتصدرين</p>
+    <input class="modal-input" type="password" id="admin-pwd-input" placeholder="كلمة السر" autocomplete="off" />
+    <div class="mbtn-row">
+      <button class="mbtn ghost" onclick="closeAdminModal()">إلغاء</button>
+      <button class="mbtn primary" onclick="confirmAdminClear()">تأكيد المسح</button>
+    </div>
+    <p id="admin-error" style="color:var(--red);font-family:'Amiri',serif;font-size:0.9rem;margin-top:0.65rem;display:none">كلمة السر غلط ❌</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL (full) -->
+<div id="admin-panel-overlay" class="hidden">
+  <div class="admin-panel">
+    <div class="ap-header">
+      <h2>🔧 Admin Panel</h2>
+      <button class="ap-close" onclick="closeAdminPanel()">✕</button>
+    </div>
+    <div class="ap-tabs">
+      <button class="ap-tab active" onclick="switchAdminTab('ap-media')">📁 ملفات ووسائط</button>
+      <button class="ap-tab" onclick="switchAdminTab('ap-words')">📖 جدول كلمات</button>
+      <button class="ap-tab" onclick="switchAdminTab('ap-exam')">📝 إنشاء امتحان</button>
+      <button class="ap-tab" onclick="switchAdminTab('ap-announce')">📢 إعلان</button>
+      <button class="ap-tab" onclick="switchAdminTab('ap-custom')">🛠️ تخصيص</button>
+      <button class="ap-tab" onclick="switchAdminTab('ap-edit-tables')">✏️ تعديل الجداول</button>
+    </div>
+    <div class="ap-body">
+
+      <!-- MEDIA TAB -->
+      <div id="ap-media" class="ap-section active">
+        <h3 style="font-family:'Amiri',serif;font-size:1rem;margin-bottom:0.8rem;direction:rtl">رفع ملفات (صور / فيديو / PDF)</h3>
+        <div class="ap-field">
+          <label>اختر ملف للرفع</label>
+          <input type="file" class="ap-input" id="ap-file-input" accept="image/*,video/*,.pdf" />
+        </div>
+        <div class="ap-row">
+          <div class="ap-field" style="flex:1">
+            <label>عنوان الملف (اختياري)</label>
+            <input type="text" class="ap-input" id="ap-file-title" placeholder="وصف أو عنوان..." />
+          </div>
+          <button class="ap-btn" onclick="uploadMedia()">رفع ⬆</button>
+        </div>
+        <div id="ap-upload-progress" style="display:none;margin-top:0.5rem">
+          <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden">
+            <div id="ap-progress-bar" style="height:100%;background:var(--accent);width:0%;transition:width 0.3s"></div>
+          </div>
+          <div id="ap-progress-txt" style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--muted);margin-top:0.25rem">جاري الرفع...</div>
+        </div>
+        <div id="ap-upload-msg"></div>
+        <h4 style="font-family:'Amiri',serif;font-size:0.95rem;margin:1rem 0 0.4rem;direction:rtl">الملفات المرفوعة</h4>
+        <div class="media-grid" id="ap-media-grid"><p style="font-family:'Amiri',serif;font-size:0.9rem;color:var(--muted)">لا توجد ملفات بعد</p></div>
+      </div>
+
+      <!-- WORDS TAB -->
+      <div id="ap-words" class="ap-section">
+        <h3 style="font-family:'Amiri',serif;font-size:1rem;margin-bottom:0.8rem;direction:rtl">إضافة جدول كلمات</h3>
+        <div class="ap-field"><label>عنوان الجدول</label><input type="text" class="ap-input" id="ap-words-title" placeholder="مثال: مصطلحات درس 3..." /></div>
+        <div class="ap-row">
+          <div class="ap-field" style="flex:1"><label>الكلمة (English)</label><input type="text" class="ap-input" id="ap-word-en" placeholder="English term..." style="direction:ltr" /></div>
+          <div class="ap-field" style="flex:1"><label>الترجمة (عربي)</label><input type="text" class="ap-input" id="ap-word-ar" placeholder="الترجمة..." /></div>
+          <button class="ap-btn" onclick="addWordRow()">+ إضافة</button>
+        </div>
+        <div id="ap-words-preview" style="margin-bottom:0.8rem"></div>
+        <div class="ap-row">
+          <button class="ap-btn success" onclick="saveWordTable()">💾 حفظ الجدول</button>
+          <button class="ap-btn danger" onclick="clearWordBuilder()">مسح</button>
+        </div>
+        <div id="ap-words-msg"></div>
+        <h4 style="font-family:'Amiri',serif;font-size:0.95rem;margin:1rem 0 0.4rem;direction:rtl">الجداول المحفوظة</h4>
+        <div id="ap-saved-tables"></div>
+      </div>
+
+      <!-- EXAM TAB -->
+      <div id="ap-exam" class="ap-section">
+        <h3 style="font-family:'Amiri',serif;font-size:1rem;margin-bottom:0.8rem;direction:rtl">إنشاء امتحان</h3>
+        <div class="ap-field"><label>عنوان الامتحان</label><input type="text" class="ap-input" id="ap-exam-title" placeholder="مثال: امتحان نهائي..." /></div>
+        <div class="ap-field"><label>تعليمات (اختياري)</label><textarea class="ap-input" id="ap-exam-instructions" placeholder="تعليمات الامتحان..."></textarea></div>
+        <div id="ap-exam-questions"></div>
+        <div class="ap-row" style="margin-top:0.6rem">
+          <button class="ap-btn" onclick="addExamQuestion('mcq')">+ اختيار متعدد</button>
+          <button class="ap-btn secondary" onclick="addExamQuestion('text')">+ سؤال مقالي</button>
+          <button class="ap-btn secondary" onclick="addExamQuestion('translate')">+ ترجمة</button>
+        </div>
+        <div class="ap-row" style="margin-top:0.8rem">
+          <button class="ap-btn success" onclick="saveExam()">💾 حفظ الامتحان</button>
+          <button class="ap-btn danger" onclick="clearExam()">مسح</button>
+        </div>
+        <div id="ap-exam-msg"></div>
+        <h4 style="font-family:'Amiri',serif;font-size:0.95rem;margin:1rem 0 0.4rem;direction:rtl">الامتحانات المحفوظة</h4>
+        <div id="ap-saved-exams"></div>
+      </div>
+
+      <!-- ANNOUNCE TAB -->
+      <div id="ap-announce" class="ap-section">
+        <h3 style="font-family:'Amiri',serif;font-size:1rem;margin-bottom:0.8rem;direction:rtl">إعلان / رسالة للطلاب</h3>
+        <div class="ap-field"><label>نص الإعلان</label><textarea class="ap-input" id="ap-announce-text" placeholder="اكتب الإعلان هنا..." rows="4"></textarea></div>
+        <div class="ap-field"><label>اسم الكاتب (اختياري)</label><input type="text" class="ap-input" id="ap-announce-author" placeholder="مثال: د. هشام" /></div>
+        <div class="ap-row">
+          <button class="ap-btn success" onclick="saveAnnouncement()">📢 نشر الإعلان</button>
+          <button class="ap-btn danger" onclick="clearAnnouncement()">مسح الإعلان الحالي</button>
+        </div>
+        <div id="ap-announce-msg"></div>
+      </div>
+
+      <!-- EDIT TABLES TAB -->
+      <div id="ap-edit-tables" class="ap-section">
+        <h3 style="font-size:1rem;margin-bottom:0.8rem;direction:rtl">✏️ تعديل الجداول الموجودة</h3>
+        <p style="font-family:'Amiri',serif;font-size:0.9rem;color:var(--muted);direction:rtl;margin-bottom:1rem">اختار الجدول اللي عايز تعدّله:</p>
+        <div style="margin-bottom:0.8rem">
+          <button class="ap-btn" style="margin-left:0.4rem;margin-bottom:0.4rem" onclick="openEditBuiltinTable('glossary')">📖 المصطلحات الأساسية</button>
+          <button class="ap-btn" style="margin-left:0.4rem;margin-bottom:0.4rem" onclick="openEditBuiltinTable('sentences')">📝 الجمل</button>
+        </div>
+        <h4 style="font-size:0.9rem;margin:0.8rem 0 0.4rem;direction:rtl;color:var(--muted)">الجداول المضافة:</h4>
+        <div id="ap-edit-custom-tables"></div>
+      </div>
+
+      <!-- CUSTOM TAB -->
+      <div id="ap-custom" class="ap-section">
+        <h3 style="font-family:'Amiri',serif;font-size:1rem;margin-bottom:0.8rem;direction:rtl">تخصيص الموقع</h3>
+        <div class="ap-field"><label>عنوان الصفحة</label><input type="text" class="ap-input" id="ap-site-title" placeholder="Legal Translation Study" style="direction:ltr" /></div>
+        <div class="ap-field"><label>اسم المدرسة / الكلية</label><input type="text" class="ap-input" id="ap-school-name" placeholder="كلية الألسن..." /></div>
+        <div class="ap-row">
+          <button class="ap-btn success" onclick="saveCustomSettings()">💾 حفظ</button>
+        </div>
+        <div id="ap-custom-msg"></div>
+        <hr style="margin:1rem 0;border:none;border-top:1px solid var(--border)">
+        <h4 style="font-family:'Amiri',serif;font-size:0.95rem;margin-bottom:0.6rem;color:var(--red);direction:rtl">⚠️ منطقة خطر</h4>
+        <button class="ap-btn danger" onclick="nukeAll()">🗑️ مسح كل البيانات</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div style="display:flex;align-items:center;gap:0.6rem">
+    <button id="nav-toggle" onclick="toggleMobileNav()" aria-label="القائمة">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-title">Legal Translation ⚖️</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap">
+    <div id="exam-status">
+      <span class="exam-name-tag" id="status-name"></span>
+      <span class="exam-timer" id="session-timer" style="display:none">00:00</span>
+      <button class="hbtn end" id="end-btn" onclick="logoutUser()" style="display:none">خروج</button>
+    </div>
+    <!-- social feed btn -->
+    <button class="hbtn social" id="social-btn" onclick="openSocialModal()" style="display:none">🌐 الفيد</button>
+    <!-- profile btn -->
+    <button class="hbtn social" id="profile-btn" onclick="openMyProfile()" style="display:none">👤 پروفايل</button>
+    <!-- friends btn shown when logged in -->
+    <button class="hbtn reg" id="friends-btn" onclick="openFriendsModal()" style="display:none">👥 أصحابي</button>
+    <!-- chat btn -->
+    <button class="hbtn" id="chat-btn" onclick="openChatModal()" style="display:none;background:#6d28d9;color:white;position:relative">
+      💬 <span id="chat-unread-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:white;border-radius:50%;width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace"></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV OVERLAY -->
+<div id="nav-overlay" onclick="closeMobileNav()"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <button id="nav-close-btn" onclick="closeMobileNav()" aria-label="إغلاق">✕</button>
+  <button class="active" onclick="showSection('glossary')">📖 المصطلحات</button>
+  <button onclick="showSection('laws')">⚖️ فروع القانون</button>
+  <button onclick="showSection('sentences')">📝 الجمل</button>
+  <button onclick="showSection('nesreen')">🎓 د. نسرين</button>
+  <button onclick="showSection('legalese')">📜 Legalese</button>
+  <button onclick="showSection('latin')">🏛️ مصطلحات لاتينية</button>
+  <button onclick="showSection('extra')">➕ مصطلحات إضافية</button>
+  <button onclick="showSection('flashcards')">🃏 Flashcards</button>
+  <button onclick="showSection('quiz')">🎯 اختبر نفسك</button>
+  <button onclick="showSection('notes')">⚠️ تنبيهات</button>
+  <button onclick="openSocialModal()" id="social-nav-btn">🌐 الفيد</button>
+  <button onclick="openAdminPanel()">🔧 Admin</button>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- GLOSSARY -->
+  <div id="glossary" class="section active">
+    <h2 class="section-title">📖 المصطلحات القانونية <span id="row-count-badge" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;background:var(--accent-light);color:var(--accent);padding:0.15rem 0.5rem;border-radius:6px;margin-right:0.5rem"></span></h2>
+    <table class="data-table">
+      <thead><tr><th id="num-col-hdr" style="width:32px;display:none">#</th><th style="direction:ltr">English Term</th><th style="direction:rtl">الترجمة العربية</th><th style="width:36px"></th></tr></thead>
+      <tbody id="glossary-body"></tbody>
+    </table>
+  </div>
+
+  <!-- LAWS -->
+  <div id="laws" class="section">
+    <h2 class="section-title">⚖️ أقسام وفروع القانون</h2>
+    <div class="law-grid" id="laws-grid"></div>
+  </div>
+
+  <!-- SENTENCES -->
+  <div id="sentences" class="section">
+    <h2 class="section-title">📝 جمل وعبارات الترجمة</h2>
+    <div id="sentences-list"></div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flashcards" class="section">
+    <h2 class="section-title">🃏 بطاقات المصطلحات</h2>
+    <p class="fc-hint">اضغط على البطاقة لتقليبها · Click to flip</p>
+    <div class="flashcard-container" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="fc-label">English Term</div>
+          <div class="fc-term en" id="fc-front-term"></div>
+        </div>
+        <div class="flashcard-back">
+          <div class="fc-label">الترجمة</div>
+          <div class="fc-term ar" id="fc-back-term"></div>
+          <div class="fc-sub" id="fc-back-sub"></div>
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-nav">
+      <button class="btn secondary" onclick="prevCard()">السابق</button>
+      <span class="fc-counter" id="fc-counter">1 / 16</span>
+      <button class="btn" onclick="nextCard()">التالي</button>
+    </div>
+    <div style="text-align:center"><button class="btn secondary" onclick="shuffleCards()">🔀 خلط البطاقات</button></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="section">
+    <h2 class="section-title">🎯 اختبر نفسك</h2>
+    <div class="quiz-wrapper">
+      <div id="quiz-setup">
+        <div style="font-family:'Amiri',serif;font-size:1rem;color:var(--muted);margin-bottom:0.7rem;direction:rtl">① اختر المحتوى:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:1.1rem" id="source-btns">
+          <button class="src-btn active" data-src="glossary">📖 المصطلحات الأساسية</button>
+          <button class="src-btn" data-src="laws">⚖️ فروع القانون</button>
+          <button class="src-btn" data-src="sentences">📝 الجمل</button>
+          <button class="src-btn" data-src="latin">🏛️ لاتيني</button>
+          <button class="src-btn" data-src="extra">➕ مصطلحات إضافية</button>
+          <button class="src-btn" data-src="legalese">📜 Legalese</button>
+          <button class="src-btn" data-src="all">🌐 الكل</button>
+        </div>
+        <div style="font-family:'Amiri',serif;font-size:1rem;color:var(--muted);margin-bottom:0.7rem;direction:rtl">② اختر الاتجاه:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:1.4rem" id="dir-btns">
+          <button class="dir-btn active" data-dir="en2ar">إنجليزي ← عربي</button>
+          <button class="dir-btn" data-dir="ar2en">عربي ← إنجليزي</button>
+        </div>
+        <button class="btn" style="width:100%;padding:0.85rem;font-size:0.9rem" onclick="startQuizFromSetup()">🚀 ابدأ الاختبار</button>
+      </div>
+      <div id="quiz-area" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div id="notes" class="section">
+    <h2 class="section-title">⚠️ تنبيهات مهمة</h2>
+    <div class="notice"><strong>⚠️ تصحيح مهم (v2):</strong> الفرق بين plaintiff و defendant في القانون المدني والجنائي:</div>
+    <table class="data-table" style="margin-bottom:1.05rem">
+      <thead><tr><th>#</th><th style="direction:ltr">Term</th><th style="direction:rtl">في القانون المدني</th><th style="direction:rtl">في القانون الجنائي</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="num-cell">10</td><td class="term-en">plaintiff</td>
+          <td class="term-ar">المدعي</td><td class="term-ar" style="color:var(--red);font-weight:700;text-align:center;font-size:1.2rem">✕</td>
+        </tr>
+        <tr>
+          <td class="num-cell">11</td><td class="term-en">defendant</td>
+          <td class="term-ar">المدعى عليه</td><td class="term-ar">المتهم ✓</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="notice">
+      <strong>تصحيحات على ملف الـ Word:</strong><br>
+      <ul style="list-style:none;padding:0;line-height:2">
+        <li>• <strong>property</strong> (ملكية) وليس <em>ownership</em></li>
+        <li>• <strong>citizenship</strong> (جنسية) وليس <em>nationality</em></li>
+        <li>• يُفضَّل <strong>transactions</strong> بدل <em>financial transactions</em></li>
+        <li>• يُفضَّل <strong>businesses</strong> بدل <em>business entities</em></li>
+        <li>• يُفضَّل <strong>regulate / govern</strong> بدل <em>concerned with</em></li>
+      </ul>
+    </div>
+    <div class="notice">
+      <strong>📚 مصطلحات محاكم مهمة:</strong><br>
+      <ul style="list-style:none;padding:0;line-height:2;direction:rtl">
+        <li>• محكمة ابتدائية = Court of First Instance</li>
+        <li>• محكمة استئناف = Court of Appeal</li>
+        <li>• محكمة النقض = Court of Cassation</li>
+        <li>• طعن / استئناف = Appeal</li>
+        <li>• حل مشكلة = Solve a problem</li>
+        <li>• تسوية نزاع = Resolve a dispute</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- LEGALESE -->
+  <div id="legalese" class="section">
+    <h2 class="section-title">📜 Legalese — كلمات القانون الإنجليزي</h2>
+    <div class="notice" style="margin-bottom:1rem"><strong>here-</strong> = this / <strong>there-</strong> = that · <strong>shall</strong> = التزام · <strong>may</strong> = إذن</div>
+
+    <h3 class="section-title" style="font-size:1rem;margin-top:0.5rem">Preposition-like Words (Here / There)</h3>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th style="direction:ltr">Word</th><th style="direction:ltr">Meaning</th><th style="direction:rtl">الترجمة / مثال</th></tr></thead>
+      <tbody>
+        <tr><td class="term-en">Hereby</td><td class="term-en">by means of this document</td><td class="term-ar">بموجب هذا العقد</td></tr>
+        <tr><td class="term-en">Hereto</td><td class="term-en">to this document</td><td class="term-ar">الملحق المرفق بهذا العقد</td></tr>
+        <tr><td class="term-en">Hereof</td><td class="term-en">of this document</td><td class="term-ar">شرط التعويضات الوارد في هذا العقد</td></tr>
+        <tr><td class="term-en">Herein</td><td class="term-en">in this document</td><td class="term-ar">البيان الموضح في هذا العقد</td></tr>
+        <tr><td class="term-en">Hereinafter</td><td class="term-en">afterwards in this document</td><td class="term-ar">المشار إليه في هذا العقد بعد ذلك باسم المالك</td></tr>
+        <tr><td class="term-en">Hereinbefore</td><td class="term-en">before in this document</td><td class="term-ar">الشروط والأحكام المنصوص عليها في هذا القانون قبل ذلك</td></tr>
+        <tr><td class="term-en">Herewith</td><td class="term-en">with this document</td><td class="term-ar">العقد والترجمة المحفوظة معه</td></tr>
+        <tr><td class="term-en">Thereby</td><td class="term-en">by means of that mentioned</td><td class="term-ar">بموجب ذلك المذكور</td></tr>
+        <tr><td class="term-en">Thereto</td><td class="term-en">to that mentioned</td><td class="term-ar">الملحق المؤرخ 12/1/2009 والملاحق المرفقة به</td></tr>
+        <tr><td class="term-en">Thereof</td><td class="term-en">of that mentioned</td><td class="term-ar">الاقرار بالاستلام المؤرخ 12/1/2008 أو أي جزء من ذلك الاقرار</td></tr>
+        <tr><td class="term-en">Therein</td><td class="term-en">in that mentioned</td><td class="term-ar">المبنى والمرافق الموجودة في ذلك المبنى</td></tr>
+        <tr><td class="term-en">Therefrom</td><td class="term-en">from that mentioned</td><td class="term-ar">الانتاج والارباح الناتجة عنه</td></tr>
+        <tr><td class="term-en">Thereinafter</td><td class="term-en">after that in that document</td><td class="term-ar">المادة 3 من عقد الايجار والمواد الواردة في ذلك العقد بعد ذلك</td></tr>
+        <tr><td class="term-en">Thereunder</td><td class="term-en">under that mentioned</td><td class="term-ar">وفع الطرفان على العقد ونفذا المشروع وفقا لذلك العقد</td></tr>
+        <tr><td class="term-en">Whereupon</td><td class="term-en">and then / based on which</td><td class="term-ar">فلهذه الأسباب / وبناء عليه / وبناء عليه اتفق الطرفان</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="section-title" style="font-size:1rem;margin-top:0.5rem">Modal Verbs — ترجمة shall / may</h3>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th>#</th><th style="direction:ltr">English</th><th style="direction:rtl">العربية</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell">1</td><td class="term-en">The Contractor <b>shall</b> provide a suitable warehouse for the Goods.</td><td class="term-ar">يوفر المقاول مستودعا ملائما للبضائع</td></tr>
+        <tr><td class="num-cell">2</td><td class="term-en">Parties <b>shall</b> observe the laws applicable in Egypt.</td><td class="term-ar">يراعى الطرفان القوانين المعمول بها في مصر</td></tr>
+        <tr><td class="num-cell">3</td><td class="term-en">A person sentenced to death <b>shall</b> be hanged.</td><td class="term-ar">يشنق الشخص المحكوم عليه بالإعدام</td></tr>
+        <tr><td class="num-cell">4</td><td class="term-en">Arbitration <b>shall</b> be governed by a special law.</td><td class="term-ar">ينظم التحكيم قانون خاص</td></tr>
+        <tr><td class="num-cell">5</td><td class="term-en">Each party <b>shall</b> choose an arbitrator.</td><td class="term-ar">يختار كل طرف محكم</td></tr>
+        <tr><td class="num-cell">6</td><td class="term-en">First Party <b>may</b> inspect the goods supplied.</td><td class="term-ar">يجوز للطرف الأول (فحص/تفتيش) البضائع الموردة</td></tr>
+        <tr><td class="num-cell">7</td><td class="term-en">First Party <b>may</b> accept or reject the samples.</td><td class="term-ar">يجوز للطرف الأول أن يقبل العينات أو يرفضها</td></tr>
+        <tr><td class="num-cell">8</td><td class="term-en">The Translator <b>may not</b> enter into agreements with competing companies.</td><td class="term-ar">لا يجوز للمترجم إبرام عقود مع شركات منافسة</td></tr>
+        <tr><td class="num-cell">9</td><td class="term-en">The Landlord <b>may not</b> enter the dwelling unit without the consent of the Tenant.</td><td class="term-ar">لا يجوز للمالك دخول الوحدة السكنية إلا بموافقة المستأجر</td></tr>
+        <tr><td class="num-cell">10</td><td class="term-en">A director <b>has the right</b> to make deduction from salary.</td><td class="term-ar">للمدير الحق في الاستقطاع من راتب الموظف</td></tr>
+        <tr><td class="num-cell">11</td><td class="term-en">An employee <b>is entitled</b> to retire before 60.</td><td class="term-ar">يحق للموظف أن يتقاعد قبل سن الستين</td></tr>
+        <tr><td class="num-cell">12</td><td class="term-en">The Contractor <b>may not</b> subcontract any Works.</td><td class="term-ar">لا يجوز للمقاول أن يتعاقد من الباطن على أي أعمال</td></tr>
+        <tr><td class="num-cell">13</td><td class="term-en">No employee <b>may</b> retire before 40.</td><td class="term-ar">لا يجوز لأي موظف أن يتقاعد قبل سن الأربعين</td></tr>
+        <tr><td class="num-cell">14</td><td class="term-en">The term of this agreement <b>shall commence as from</b> the date of signature.</td><td class="term-ar">تبدأ مدة هذا العقد اعتبارا من تاريخ التوقيع</td></tr>
+        <tr><td class="num-cell">15</td><td class="term-en">Parties to the Contract <b>shall abide by</b> the labor laws in force.</td><td class="term-ar">يلتزم طرفا العقد بقوانين العمل السارية المطبقة</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="section-title" style="font-size:1rem;margin-top:0.5rem">مصطلحات العقود الرسمية</h3>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th>#</th><th style="direction:ltr">English</th><th style="direction:rtl">العربية</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell">1</td><td class="term-en">undertake (promise)</td><td class="term-ar">يتعهد</td></tr>
+        <tr><td class="num-cell">2</td><td class="term-en">prior to (before)</td><td class="term-ar">قبل</td></tr>
+        <tr><td class="num-cell">3</td><td class="term-en">expire (end)</td><td class="term-ar">ينتهي / ينقضي</td></tr>
+        <tr><td class="num-cell">4</td><td class="term-en">at all times (always)</td><td class="term-ar">في أي وقت / دوما على الدوام</td></tr>
+        <tr><td class="num-cell">5</td><td class="term-en">inasmuch as (regarding)</td><td class="term-ar">فيما يخص / فيما يتعلق بـ</td></tr>
+        <tr><td class="num-cell">6</td><td class="term-en">referred to (named)</td><td class="term-ar">المشار إليه بـ</td></tr>
+        <tr><td class="num-cell">7</td><td class="term-en">by and between</td><td class="term-ar">تحرر هذا العقد بين كلا من ...... و ........</td></tr>
+        <tr><td class="num-cell">8</td><td class="term-en">in full force and effect</td><td class="term-ar">ساري / نافذ في السريان</td></tr>
+        <tr><td class="num-cell">9</td><td class="term-en">null and void</td><td class="term-ar">باطل / ملغى</td></tr>
+        <tr><td class="num-cell">10</td><td class="term-en">power and authority</td><td class="term-ar">السلطة / الصلاحية — يمنح الوكيل القدرة على التصرف نيابة عني</td></tr>
+        <tr><td class="num-cell">11</td><td class="term-en">sentence (criminal law) = punishment</td><td class="term-ar">حكم بالعقوبة</td></tr>
+        <tr><td class="num-cell">12</td><td class="term-en">power of attorney</td><td class="term-ar">توكيل — يمنح التوكيل الوكيل القدرة على التصرف نيابة عنك</td></tr>
+        <tr><td class="num-cell">13</td><td class="term-en">in witness whereof</td><td class="term-ar">إثباتا لما تقدم / شهادة منا على ذلك</td></tr>
+        <tr><td class="num-cell">14</td><td class="term-en">where there is no provision</td><td class="term-ar">في حالة عدم وجود نص</td></tr>
+        <tr><td class="num-cell">15</td><td class="term-en">for the purpose of</td><td class="term-ar">لغرض / بغية</td></tr>
+        <tr><td class="num-cell">16</td><td class="term-en">including without limitation</td><td class="term-ar">على سبيل المثال لا الحصر</td></tr>
+        <tr><td class="num-cell">17</td><td class="term-en">without prejudice to</td><td class="term-ar">دون الإخلال بـ / دون المساس بـ</td></tr>
+        <tr><td class="num-cell">18</td><td class="term-en">unless otherwise provided herein</td><td class="term-ar">مالم ينص على خلاف ذلك</td></tr>
+        <tr><td class="num-cell">19</td><td class="term-en">prescribed / stipulated / enshrined / set forth / provided for</td><td class="term-ar">منصوص عليه</td></tr>
+        <tr><td class="num-cell">20</td><td class="term-en">custody (criminal)</td><td class="term-ar">احتجاز في الحبس أو السجن — وضع المتهم في الحجز</td></tr>
+        <tr><td class="num-cell">21</td><td class="term-en">custody (family law)</td><td class="term-ar">حضانة الطفل — رعاية طفل</td></tr>
+        <tr><td class="num-cell">22</td><td class="term-en">consideration (contract law)</td><td class="term-ar">محل العقد / المقابل / العِوَض — تلقى الطرفان مقابل العقد</td></tr>
+        <tr><td class="num-cell">23</td><td class="term-en">fine (criminal law)</td><td class="term-ar">الغرامة — يعاقب على المخالفة بالغرامة</td></tr>
+        <tr><td class="num-cell">24</td><td class="term-en">new evidence came to light / verdict was quashed</td><td class="term-ar">ظهر دليل جديد والغي الحكم الأصلي</td></tr>
+        <tr><td class="num-cell">25</td><td class="term-en">this task may only be undertaken by Sara</td><td class="term-ar">لا يجوز أن يقوم بهذه المهمة إلا سارة</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DR. NESREEN SECTION -->
+  <div id="nesreen" class="section">
+    <h2 class="section-title">🎓 د. نسرين — المحتوى والقوانين</h2>
+
+    <!-- Definition of Law -->
+    <div class="notice" style="background:#f0f9ff;border-color:#bae6fd;border-left-color:#0284c7">
+      <strong style="color:#0284c7">📖 تعريف القانون:</strong><br>
+      القانون عبارة عن مجموعة من الأسس والقواعد التي تحكم المجتمع وتعمل على تنظيمه، وهي تصدر عن السلطة التشريعية في الدولة. فالقانون هو الذي يضع القواعد التي تحدد حقوق الأفراد وواجباتهم، ويضع الجزاء المناسب في حال مخالفة تلك القواعد والأسس.
+    </div>
+    <div class="notice" style="background:#f0fdf4;border-color:#86efac;border-left-color:#16a34a">
+      <strong style="color:#16a34a">Definition of Law:</strong><br>
+      Law is a set of rules that govern and regulate society. It is made/enacted by the legislative authority in the state. Law is the instrument that sets the rules defining the rights and duties of individuals and sets the appropriate penalty in the event of a breach of those rules.
+    </div>
+
+    <h3 class="section-title" style="font-size:1rem;margin-top:1rem">📚 Glossary — صفحة 24</h3>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th style="direction:ltr">English Term</th><th style="direction:rtl">الترجمة</th><th style="width:36px"></th></tr></thead>
+      <tbody>
+        <tr><td class="term-en">Legislative authority</td><td class="term-ar">السلطة التشريعية</td><td><button class="tts-btn" onclick="speak('Legislative authority')">🔊</button></td></tr>
+        <tr><td class="term-en">Executive authority</td><td class="term-ar">السلطة التنفيذية</td><td><button class="tts-btn" onclick="speak('Executive authority')">🔊</button></td></tr>
+        <tr><td class="term-en">Judicial authority</td><td class="term-ar">السلطة القضائية</td><td><button class="tts-btn" onclick="speak('Judicial authority')">🔊</button></td></tr>
+        <tr><td class="term-en">Legislature</td><td class="term-ar">الهيئة التشريعية</td><td><button class="tts-btn" onclick="speak('Legislature')">🔊</button></td></tr>
+        <tr><td class="term-en">Parliament</td><td class="term-ar">برلمان</td><td><button class="tts-btn" onclick="speak('Parliament')">🔊</button></td></tr>
+        <tr><td class="term-en">Unicameral</td><td class="term-ar">برلمان أحادي المجلس</td><td><button class="tts-btn" onclick="speak('Unicameral')">🔊</button></td></tr>
+        <tr><td class="term-en">Bicameral</td><td class="term-ar">برلمان ثنائي المجلس</td><td><button class="tts-btn" onclick="speak('Bicameral')">🔊</button></td></tr>
+        <tr><td class="term-en">Senate</td><td class="term-ar">مجلس الشيوخ</td><td><button class="tts-btn" onclick="speak('Senate')">🔊</button></td></tr>
+        <tr><td class="term-en">House of Representatives</td><td class="term-ar">مجلس النواب</td><td><button class="tts-btn" onclick="speak('House of Representatives')">🔊</button></td></tr>
+        <tr><td class="term-en">Congress</td><td class="term-ar">الكونجرس</td><td><button class="tts-btn" onclick="speak('Congress')">🔊</button></td></tr>
+        <tr><td class="term-en">House of Lords</td><td class="term-ar">مجلس اللوردات</td><td><button class="tts-btn" onclick="speak('House of Lords')">🔊</button></td></tr>
+        <tr><td class="term-en">House of Commons</td><td class="term-ar">مجلس العموم</td><td><button class="tts-btn" onclick="speak('House of Commons')">🔊</button></td></tr>
+        <tr><td class="term-en">Bill ⬡</td><td class="term-ar">مشروع قانون</td><td><button class="tts-btn" onclick="speak('Bill')">🔊</button></td></tr>
+        <tr><td class="term-en">Executive regulations ⬡</td><td class="term-ar">اللائحة التنفيذية</td><td><button class="tts-btn" onclick="speak('Executive regulations')">🔊</button></td></tr>
+        <tr><td class="term-en">Enacted ⬡</td><td class="term-ar">أصدر (البرلمان)</td><td><button class="tts-btn" onclick="speak('Enacted')">🔊</button></td></tr>
+        <tr><td class="term-en">Promulgated ⬡</td><td class="term-ar">أصدر (الرئيس)</td><td><button class="tts-btn" onclick="speak('Promulgated')">🔊</button></td></tr>
+        <tr><td class="term-en">Governs ⬡</td><td class="term-ar">يحكم (القانون)</td><td><button class="tts-btn" onclick="speak('Governs')">🔊</button></td></tr>
+        <tr><td class="term-en">Regulates ⬡</td><td class="term-ar">ينظم (القانون)</td><td><button class="tts-btn" onclick="speak('Regulates')">🔊</button></td></tr>
+        <tr><td class="term-en">Imposes penalty ⬡</td><td class="term-ar">يضع الجزاء</td><td><button class="tts-btn" onclick="speak('Imposes penalty')">🔊</button></td></tr>
+        <tr><td class="term-en">State ⬡</td><td class="term-ar">الدولة</td><td><button class="tts-btn" onclick="speak('State')">🔊</button></td></tr>
+        <tr><td class="term-en">Rules ⬡</td><td class="term-ar">الأسس والقواعد</td><td><button class="tts-btn" onclick="speak('Rules')">🔊</button></td></tr>
+        <tr><td class="term-en">The rights and duties of individuals</td><td class="term-ar">حقوق الأفراد وواجباتهم</td><td><button class="tts-btn" onclick="speak('The rights and duties of individuals')">🔊</button></td></tr>
+        <tr><td class="term-en">Violating those rules ⬡</td><td class="term-ar">مخالفة تلك القواعد</td><td><button class="tts-btn" onclick="speak('Violating those rules')">🔊</button></td></tr>
+        <tr><td class="term-en">Public ⬡</td><td class="term-ar">عام (حكومي متعلق بالدولة)</td><td><button class="tts-btn" onclick="speak('Public')">🔊</button></td></tr>
+        <tr><td class="term-en">Legal person ⬡</td><td class="term-ar">شخص اعتباري</td><td><button class="tts-btn" onclick="speak('Legal person')">🔊</button></td></tr>
+        <tr><td class="term-en">Natural person</td><td class="term-ar">شخص طبيعي</td><td><button class="tts-btn" onclick="speak('Natural person')">🔊</button></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="section-title" style="font-size:1rem;margin-top:1rem">📚 Glossary — صفحة 25 (القانون العام)</h3>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th style="direction:ltr">English Term</th><th style="direction:rtl">الترجمة</th><th style="width:36px"></th></tr></thead>
+      <tbody>
+        <tr><td class="term-en">Public International Law</td><td class="term-ar">القانون الدولي العام</td><td><button class="tts-btn" onclick="speak('Public International Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Criminal Law</td><td class="term-ar">القانون الجنائي</td><td><button class="tts-btn" onclick="speak('Criminal Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Provisions</td><td class="term-ar">أحكام</td><td><button class="tts-btn" onclick="speak('Provisions')">🔊</button></td></tr>
+        <tr><td class="term-en">Penal law</td><td class="term-ar">قانون العقوبات</td><td><button class="tts-btn" onclick="speak('Penal law')">🔊</button></td></tr>
+        <tr><td class="term-en">Criminal offenses</td><td class="term-ar">الجرائم (بروفيشنال)</td><td><button class="tts-btn" onclick="speak('Criminal offenses')">🔊</button></td></tr>
+        <tr><td class="term-en">Measures</td><td class="term-ar">تدابير (دون ترتيب)</td><td><button class="tts-btn" onclick="speak('Measures')">🔊</button></td></tr>
+        <tr><td class="term-en">Procedures</td><td class="term-ar">تدابير (مرتبة على بعضها)</td><td><button class="tts-btn" onclick="speak('Procedures')">🔊</button></td></tr>
+        <tr><td class="term-en">Contravention</td><td class="term-ar">مخالفة</td><td><button class="tts-btn" onclick="speak('Contravention')">🔊</button></td></tr>
+        <tr><td class="term-en">Misdemeanor</td><td class="term-ar">جنحة</td><td><button class="tts-btn" onclick="speak('Misdemeanor')">🔊</button></td></tr>
+        <tr><td class="term-en">Felony</td><td class="term-ar">جناية</td><td><button class="tts-btn" onclick="speak('Felony')">🔊</button></td></tr>
+        <tr><td class="term-en">Constitutional Law</td><td class="term-ar">القانون الدستوري</td><td><button class="tts-btn" onclick="speak('Constitutional Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Comprises</td><td class="term-ar">يضم</td><td><button class="tts-btn" onclick="speak('Comprises')">🔊</button></td></tr>
+        <tr><td class="term-en">Protect the rights of individuals</td><td class="term-ar">تضمن للأفراد حقوقهم</td><td><button class="tts-btn" onclick="speak('Protect the rights of individuals')">🔊</button></td></tr>
+        <tr><td class="term-en">Financial Law</td><td class="term-ar">القانون المالي</td><td><button class="tts-btn" onclick="speak('Financial Law')">🔊</button></td></tr>
+        <tr><td class="term-en">State budget</td><td class="term-ar">الميزانية العامة</td><td><button class="tts-btn" onclick="speak('State budget')">🔊</button></td></tr>
+        <tr><td class="term-en">Revenues and expenditures</td><td class="term-ar">موارد ونفقات</td><td><button class="tts-btn" onclick="speak('Revenues and expenditures')">🔊</button></td></tr>
+        <tr><td class="term-en">Administrative Law</td><td class="term-ar">القانون الإداري</td><td><button class="tts-btn" onclick="speak('Administrative Law')">🔊</button></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="section-title" style="font-size:1rem;margin-top:1rem">📚 Glossary — صفحة 26 (القانون الخاص)</h3>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th style="direction:ltr">English Term</th><th style="direction:rtl">الترجمة</th><th style="width:36px"></th></tr></thead>
+      <tbody>
+        <tr><td class="term-en">Civil Law</td><td class="term-ar">القانون المدني</td><td><button class="tts-btn" onclick="speak('Civil Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Personal affairs / status</td><td class="term-ar">الأحوال الشخصية</td><td><button class="tts-btn" onclick="speak('Personal affairs')">🔊</button></td></tr>
+        <tr><td class="term-en">Property</td><td class="term-ar">الملكية</td><td><button class="tts-btn" onclick="speak('Property')">🔊</button></td></tr>
+        <tr><td class="term-en">Citizenship</td><td class="term-ar">الحصول على الجنسية</td><td><button class="tts-btn" onclick="speak('Citizenship')">🔊</button></td></tr>
+        <tr><td class="term-en">Transactions</td><td class="term-ar">التعاملات المالية</td><td><button class="tts-btn" onclick="speak('Transactions')">🔊</button></td></tr>
+        <tr><td class="term-en">Commercial Law</td><td class="term-ar">القانون التجاري</td><td><button class="tts-btn" onclick="speak('Commercial Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Commerce</td><td class="term-ar">تجارة (بالمعنى العام)</td><td><button class="tts-btn" onclick="speak('Commerce')">🔊</button></td></tr>
+        <tr><td class="term-en">Trade</td><td class="term-ar">تجارة (بيع وشراء)</td><td><button class="tts-btn" onclick="speak('Trade')">🔊</button></td></tr>
+        <tr><td class="term-en">Business</td><td class="term-ar">تجارة (شركات)</td><td><button class="tts-btn" onclick="speak('Business')">🔊</button></td></tr>
+        <tr><td class="term-en">Businesses / business entities</td><td class="term-ar">الشركات التجارية</td><td><button class="tts-btn" onclick="speak('Businesses')">🔊</button></td></tr>
+        <tr><td class="term-en">Law of Civil and Commercial Procedures</td><td class="term-ar">قانون المرافعات المدنية والتجارية</td><td><button class="tts-btn" onclick="speak('Law of Civil and Commercial Procedures')">🔊</button></td></tr>
+        <tr><td class="term-en">Court of first instance</td><td class="term-ar">محكمة ابتدائية</td><td><button class="tts-btn" onclick="speak('Court of first instance')">🔊</button></td></tr>
+        <tr><td class="term-en">Court of appeal</td><td class="term-ar">محكمة الاستئناف</td><td><button class="tts-btn" onclick="speak('Court of appeal')">🔊</button></td></tr>
+        <tr><td class="term-en">Court of Cassation</td><td class="term-ar">محكمة النقض</td><td><button class="tts-btn" onclick="speak('Court of Cassation')">🔊</button></td></tr>
+        <tr><td class="term-en">To file a complaint</td><td class="term-ar">تقديم شكوى</td><td><button class="tts-btn" onclick="speak('To file a complaint')">🔊</button></td></tr>
+        <tr><td class="term-en">Petition for appeal</td><td class="term-ar">طلب استئناف</td><td><button class="tts-btn" onclick="speak('Petition for appeal')">🔊</button></td></tr>
+        <tr><td class="term-en">To claim right</td><td class="term-ar">المطالبة بحق</td><td><button class="tts-btn" onclick="speak('To claim right')">🔊</button></td></tr>
+        <tr><td class="term-en">Maritime Law</td><td class="term-ar">القانون البحري</td><td><button class="tts-btn" onclick="speak('Maritime Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Aviation Law</td><td class="term-ar">القانون الجوي</td><td><button class="tts-btn" onclick="speak('Aviation Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Labor Law / Employment Law</td><td class="term-ar">قانون العمل</td><td><button class="tts-btn" onclick="speak('Employment Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Private International Law</td><td class="term-ar">القانون الدولي الخاص</td><td><button class="tts-btn" onclick="speak('Private International Law')">🔊</button></td></tr>
+        <tr><td class="term-en">Employers and employees</td><td class="term-ar">أصحاب العمل والعمال</td><td><button class="tts-btn" onclick="speak('Employers and employees')">🔊</button></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Bilingual Text Pages 24-26 -->
+    <h3 class="section-title" style="font-size:1rem;margin-top:1rem">📄 النص الكامل ثنائي اللغة (ص 24–26)</h3>
+    <div id="nesreen-bilingual"></div>
+  </div>
+
+
+  <div id="latin" class="section">
+    <h2 class="section-title">🏛️ المصطلحات اللاتينية</h2>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th>#</th><th style="direction:ltr">Latin Term</th><th style="direction:ltr">Meaning</th><th style="direction:rtl">العربية</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell">1</td><td class="term-en">Ab initio</td><td class="term-en">from the beginning</td><td class="term-ar">من البداية</td></tr>
+        <tr><td class="num-cell">2</td><td class="term-en">Ad hoc</td><td class="term-en">for the particular end or case at hand</td><td class="term-ar">مخصصة لـ</td></tr>
+        <tr><td class="num-cell">3</td><td class="term-en">Alibi</td><td class="term-en">at another place, elsewhere</td><td class="term-ar">دليل دامغ على عدم وجود الشخص (دليل غياب)</td></tr>
+        <tr><td class="num-cell">4</td><td class="term-en">Bona fide</td><td class="term-en">in good faith</td><td class="term-ar">حسن نية / بحسن نية</td></tr>
+        <tr><td class="num-cell">5</td><td class="term-en">Ipso facto</td><td class="term-en">by the mere fact</td><td class="term-ar">بناء على الحقيقة السابقة / بناء على ما سبق</td></tr>
+        <tr><td class="num-cell">6</td><td class="term-en">In status quo</td><td class="term-en">in the present state</td><td class="term-ar">الوضع الراهن</td></tr>
+        <tr><td class="num-cell">7</td><td class="term-en">Actori incumbit onus probandi</td><td class="term-en">burden of proof lies with the one who makes the charge</td><td class="term-ar">البينة على من ادعى — عبء الإثبات يقع على الشخص الذي يتهم شخصا آخر</td></tr>
+        <tr><td class="num-cell">8</td><td class="term-en">Pacta sunt servanda</td><td class="term-en">a contract makes the law of the parties</td><td class="term-ar">العقد شريعة المتعاقدين — العقد هو الذي يصنع قانون المتعاقدين</td></tr>
+        <tr><td class="num-cell">9</td><td class="term-en">Nullum crimen, nulla poena sine praevia lege poenali</td><td class="term-en">no crime, no punishment without a previous provision</td><td class="term-ar">لا جريمة ولا عقوبة إلا بنص</td></tr>
+        <tr><td class="num-cell">10</td><td class="term-en">In presentia</td><td class="term-en">in presence</td><td class="term-ar">حضوريا</td></tr>
+        <tr><td class="num-cell">11</td><td class="term-en">Inter alios</td><td class="term-en">among others</td><td class="term-ar">ضمن (آخرين)</td></tr>
+        <tr><td class="num-cell">12</td><td class="term-en">Ex post facto</td><td class="term-en">after the fact</td><td class="term-ar">بأثر رجعي</td></tr>
+        <tr><td class="num-cell">13</td><td class="term-en">Laissez faire</td><td class="term-en">let do / non-interference</td><td class="term-ar">حرية العمل</td></tr>
+        <tr><td class="num-cell">14</td><td class="term-en">Bona gratia</td><td class="term-en">voluntarily</td><td class="term-ar">طواعية</td></tr>
+        <tr><td class="num-cell">15</td><td class="term-en">Res judicata</td><td class="term-en">a matter already judged</td><td class="term-ar">الأمر المقضي به</td></tr>
+        <tr><td class="num-cell">16</td><td class="term-en">En masse</td><td class="term-en">all together</td><td class="term-ar">كليا / إجمالا</td></tr>
+        <tr><td class="num-cell">17</td><td class="term-en">Per diem</td><td class="term-en">per day</td><td class="term-ar">يوميا</td></tr>
+        <tr><td class="num-cell">18</td><td class="term-en">Per se</td><td class="term-en">by itself</td><td class="term-ar">في حد ذاته</td></tr>
+        <tr><td class="num-cell">19</td><td class="term-en">Persona grata</td><td class="term-en">welcome person</td><td class="term-ar">شخص مرغوب فيه</td></tr>
+        <tr><td class="num-cell">20</td><td class="term-en">Persona non grata</td><td class="term-en">unwelcome person</td><td class="term-ar">شخص غير مرغوب فيه</td></tr>
+        <tr><td class="num-cell">21</td><td class="term-en">Prima facie</td><td class="term-en">at first sight</td><td class="term-ar">لأول وهلة</td></tr>
+        <tr><td class="num-cell">22</td><td class="term-en">Pro rata</td><td class="term-en">proportionally</td><td class="term-ar">بنسبة مئوية</td></tr>
+        <tr><td class="num-cell">23</td><td class="term-en">Regime</td><td class="term-en">system</td><td class="term-ar">نظام</td></tr>
+        <tr><td class="num-cell">24</td><td class="term-en">Sabotage</td><td class="term-en">deliberate destruction</td><td class="term-ar">تخريب</td></tr>
+        <tr><td class="num-cell">25</td><td class="term-en">Sine die</td><td class="term-en">without a fixed date</td><td class="term-ar">إلى أجل غير مسمى</td></tr>
+        <tr><td class="num-cell">26</td><td class="term-en">Sub conditione</td><td class="term-en">under condition</td><td class="term-ar">بشرط / تحت شرط</td></tr>
+        <tr><td class="num-cell">27</td><td class="term-en">Vice versa</td><td class="term-en">the other way around</td><td class="term-ar">العكس بالعكس</td></tr>
+        <tr><td class="num-cell">28</td><td class="term-en">Nunc pro tunc</td><td class="term-en">now for then</td><td class="term-ar">الآن (لينفذ) في وقت آخر</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EXTRA TERMS -->
+  <div id="extra" class="section">
+    <h2 class="section-title">➕ مصطلحات إضافية من المحاضرات</h2>
+    <table class="data-table" style="margin-bottom:1.2rem">
+      <thead><tr><th>#</th><th style="direction:ltr">English</th><th style="direction:rtl">العربية</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell">1</td><td class="term-en">sole proprietorship</td><td class="term-ar">منشأة فردية</td></tr>
+        <tr><td class="num-cell">2</td><td class="term-en">special (limited) partnership</td><td class="term-ar">شركة توصية بسيطة</td></tr>
+        <tr><td class="num-cell">3</td><td class="term-en">partnership limited by shares</td><td class="term-ar">شركة توصية بالأسهم</td></tr>
+        <tr><td class="num-cell">4</td><td class="term-en">holding company</td><td class="term-ar">شركة قابضة</td></tr>
+        <tr><td class="num-cell">5</td><td class="term-en">joint venture</td><td class="term-ar">مشروع مشترك</td></tr>
+        <tr><td class="num-cell">6</td><td class="term-en">stock record</td><td class="term-ar">سجل الأسهم</td></tr>
+        <tr><td class="num-cell">7</td><td class="term-en">nominal (par) value of share</td><td class="term-ar">القيمة الاسمية للسهم</td></tr>
+        <tr><td class="num-cell">8</td><td class="term-en">vote by proxy</td><td class="term-ar">التصويت بالوكالة</td></tr>
+        <tr><td class="num-cell">9</td><td class="term-en">minutes of meeting</td><td class="term-ar">محضر الاجتماع</td></tr>
+        <tr><td class="num-cell">10</td><td class="term-en">civil sanctions</td><td class="term-ar">عقوبات مدنية</td></tr>
+        <tr><td class="num-cell">11</td><td class="term-en">moral rules</td><td class="term-ar">قواعد أخلاقية</td></tr>
+        <tr><td class="num-cell">12</td><td class="term-en">rules of religion</td><td class="term-ar">قواعد دينية</td></tr>
+        <tr><td class="num-cell">13</td><td class="term-en">code</td><td class="term-ar">لائحة (مجموعة قوانين)</td></tr>
+        <tr><td class="num-cell">14</td><td class="term-en">conduct</td><td class="term-ar">سلوك</td></tr>
+        <tr><td class="num-cell">15</td><td class="term-en">right</td><td class="term-ar">حق</td></tr>
+        <tr><td class="num-cell">16</td><td class="term-en">pecuniary right</td><td class="term-ar">حق مالي</td></tr>
+        <tr><td class="num-cell">17</td><td class="term-en">real right</td><td class="term-ar">حق أصلي</td></tr>
+        <tr><td class="num-cell">18</td><td class="term-en">civil rights</td><td class="term-ar">حقوق مدنية</td></tr>
+        <tr><td class="num-cell">19</td><td class="term-en">political rights</td><td class="term-ar">حقوق سياسية</td></tr>
+        <tr><td class="num-cell">20</td><td class="term-en">human rights</td><td class="term-ar">حقوق الإنسان</td></tr>
+        <tr><td class="num-cell">21</td><td class="term-en">public rights</td><td class="term-ar">حقوق عامة</td></tr>
+        <tr><td class="num-cell">22</td><td class="term-en">private rights</td><td class="term-ar">حقوق خاصة</td></tr>
+        <tr><td class="num-cell">23</td><td class="term-en">personal rights</td><td class="term-ar">حقوق شخصية</td></tr>
+        <tr><td class="num-cell">24</td><td class="term-en">juristic person</td><td class="term-ar">شخص — صفة اعتبارية</td></tr>
+        <tr><td class="num-cell">25</td><td class="term-en">obligations</td><td class="term-ar">واجبات</td></tr>
+        <tr><td class="num-cell">26</td><td class="term-en">status</td><td class="term-ar">وضع</td></tr>
+        <tr><td class="num-cell">27</td><td class="term-en">movable things</td><td class="term-ar">أشياء منقولة</td></tr>
+        <tr><td class="num-cell">28</td><td class="term-en">immovable things</td><td class="term-ar">أشياء غير منقولة</td></tr>
+        <tr><td class="num-cell">29</td><td class="term-en">sources of law</td><td class="term-ar">مصادر القانون</td></tr>
+        <tr><td class="num-cell">30</td><td class="term-en">public person</td><td class="term-ar">شخص عام (الدولة أو أي من هيئاتها)</td></tr>
+        <tr><td class="num-cell">31</td><td class="term-en">private person</td><td class="term-ar">شخص عادي (شركة أو مؤسسة خاصة)</td></tr>
+        <tr><td class="num-cell">32</td><td class="term-en">rule of law</td><td class="term-ar">سيادة القانون</td></tr>
+        <tr><td class="num-cell">33</td><td class="term-en">sanctioned</td><td class="term-ar">مدعم بجزاءات</td></tr>
+        <tr><td class="num-cell">34</td><td class="term-en">divine rules</td><td class="term-ar">قواعد إلهية</td></tr>
+        <tr><td class="num-cell">35</td><td class="term-en">law of taxation</td><td class="term-ar">قانون الضرائب</td></tr>
+        <tr><td class="num-cell">36</td><td class="term-en">law of criminal procedures</td><td class="term-ar">قانون الإجراءات الجنائية</td></tr>
+        <tr><td class="num-cell">37</td><td class="term-en">commercial maritime law</td><td class="term-ar">القانون التجاري البحري</td></tr>
+        <tr><td class="num-cell">38</td><td class="term-en">infancy (doli in capax)</td><td class="term-ar">دون سن المساءلة</td></tr>
+        <tr><td class="num-cell">39</td><td class="term-en">drunkenness</td><td class="term-ar">السكر</td></tr>
+        <tr><td class="num-cell">40</td><td class="term-en">ignorance (or mistake)</td><td class="term-ar">الجهل بالقانون</td></tr>
+        <tr><td class="num-cell">41</td><td class="term-en">coercion (duress)</td><td class="term-ar">الإكراه</td></tr>
+        <tr><td class="num-cell">42</td><td class="term-en">loss of memory</td><td class="term-ar">فقدان الذاكرة</td></tr>
+        <tr><td class="num-cell">43</td><td class="term-en">uncontrollable impulse</td><td class="term-ar">عدم التحكم في النفس</td></tr>
+        <tr><td class="num-cell">44</td><td class="term-en">treason</td><td class="term-ar">خيانة</td></tr>
+        <tr><td class="num-cell">45</td><td class="term-en">sedition</td><td class="term-ar">تحريض على الفتنة</td></tr>
+        <tr><td class="num-cell">46</td><td class="term-en">participle — attorney</td><td class="term-ar">المُوكِّل — الوكيل</td></tr>
+        <tr><td class="num-cell">47</td><td class="term-en">constitution</td><td class="term-ar">دستور — يضمن الدستور مشاركة المرأة الكاملة في الحياة العامة</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script>
+// ===== DATA =====
+const glossary = [
+  {n:1,  en:"ab initio",            ar:"من البداية",                            extra:""},
+  {n:2,  en:"ad hoc",               ar:"مخصص لـ",                              extra:"ad hoc committee = لجنة مخصصة/مختصة"},
+  {n:3,  en:"bona fide",            ar:"حسن نية",                              extra:""},
+  {n:4,  en:"offender",             ar:"الجاني",                               extra:""},
+  {n:5,  en:"contravention",        ar:"مخالفة",                               extra:""},
+  {n:6,  en:"criminal sanctions",   ar:"عقوبات جنائية",                        extra:""},
+  {n:7,  en:"consolidation",        ar:"اتحاد شركات",                          extra:""},
+  {n:8,  en:"damages",              ar:"تعويضات مالية",                        extra:""},
+  {n:9,  en:"perjury",              ar:"شهادة زور / حنث باليمين",              extra:""},
+  {n:10, en:"plaintiff",            ar:"المدعي",                               extra:""},
+  {n:11, en:"defendant",            ar:"المدعى عليه (مدني) / المتهم (جنائي)", extra:""},
+  {n:12, en:"aforementioned",       ar:"المذكور آنفاً / المذكور قبل ذلك",     extra:""},
+  {n:13, en:"referred to",          ar:"المشار إليه",                          extra:""},
+  {n:14, en:"essentials of a crime",ar:"أركان الجريمة",                        extra:""},
+  {n:15, en:"incorporeal right",    ar:"الحق المعنوي",                         extra:""},
+  {n:16, en:"body of laws",         ar:"مجموعة القوانين",                      extra:""},
+  {n:17, en:"alibi",                ar:"دليل دامغ على الغياب",                 extra:"دليل على عدم وجود الشخص في موقع الجريمة"},
+  {n:18, en:"in witness whereof",   ar:"إثباتاً لما تقدم / شهادة منا على ذلك",extra:""},
+  {n:19, en:"without prejudice to", ar:"دون المساس بـ / دون الإخلال بـ",      extra:""},
+  {n:20, en:"vote by proxy",        ar:"التصويت بالوكالة",                     extra:""},
+  {n:21, en:"holding company",      ar:"شركة قابضة",                           extra:""},
+  {n:22, en:"joint venture",        ar:"مشروع مشترك",                          extra:""},
+  {n:23, en:"misdemeanor",          ar:"جنحة",                                 extra:""},
+  {n:24, en:"felony",               ar:"جناية",                                extra:""},
+  {n:25, en:"pacta sunt servanda",  ar:"العقد شريعة المتعاقدين",               extra:""},
+  {n:26, en:"nullum crimen sine lege",ar:"لا جريمة ولا عقوبة إلا بنص",        extra:""},
+];
+
+const laws = [
+  {type:'public',  en:"Public Law",                          ar:"القانون العام",                    defEn:"A set of rules governing relations between two parties where the state, as a sovereign power, is one of them.", defAr:"مجموعة من القواعد والأنظمة التي تنظم العلاقات بين طرفين تكون الدولة بصفتها السيادية أحدهما."},
+  {type:'public',  en:"Constitutional Law",                  ar:"القانون الدستوري",                 defEn:"The law comprising all legislations and rules that protect the rights of individuals in the state, such as the right to vote or run for elections.", defAr:"القانون الذي يضم جميع التشريعات والقواعد التي تضمن للأفراد حقوقهم في الدولة."},
+  {type:'public',  en:"Administrative Law",                  ar:"القانون الإداري",                  defEn:"The law that regulates the relationship between administrative institutions and individuals, such as recruitment and management of public utilities.", defAr:"القانون الذي ينظم العلاقة بين المؤسسات الإدارية وأفراد المجتمع."},
+  {type:'public',  en:"Financial Law",                       ar:"القانون المالي",                   defEn:"The law that regulates the state budget, including revenues and expenditures.", defAr:"القانون الذي ينظم الميزانية العامة للدولة وما يخصها من موارد ونفقات."},
+  {type:'public',  en:"Criminal Law",                        ar:"القانون الجنائي",                  defEn:"A set of legal rules that define crimes and impose penalties or set procedures for each criminal offense.", defAr:"مجموعة من القواعد القانونية التي تبين الجرائم وتفرض العقوبات أو التدابير لكل جريمة."},
+  {type:'public',  en:"Public International Law",            ar:"القانون الدولي العام",              defEn:"A set of laws and provisions that aim to regulate relations between states in peace and war.", defAr:"مجموعة من القوانين والأحكام تهدف إلى تنظيم العلاقات بين الدول وبعضها سواء في السلم أو الحرب."},
+  {type:'private', en:"Private Law",                         ar:"القانون الخاص",                    defEn:"A set of rules governing relations between individuals where the state, as a sovereign power, is not one of them.", defAr:"مجموعة من القواعد والأنظمة التي تنظم تعاملات الأفراد فيما بينهم."},
+  {type:'private', en:"Civil Law",                           ar:"القانون المدني",                   defEn:"The law that regulates individuals' personal affairs such as property, citizenship, and transactions.", defAr:"وهو الذي يهتم بقوانين الأحوال الشخصية للأفراد مثل الملكية والحصول على الجنسية والمعاملات المالية."},
+  {type:'private', en:"Commercial Law",                      ar:"القانون التجاري",                  defEn:"The law that regulates trade, businesses, and banks.", defAr:"وهو الذي يهتم بالتجارة وحقوق الشركات التجارية والبنوك."},
+  {type:'private', en:"Law of Civil and Commercial Procedures",ar:"قانون المرافعات المدنية والتجارية",defEn:"The law that regulates filing complaints or appeals and resolving disputes by referring individuals to judicial institutions.", defAr:"يهتم بتنظيم تقديم الشكاوى أو طلبات الاستئناف وحل نزاعات معينة عن طريق توجيه الأفراد لمؤسسات القضاء."},
+  {type:'private', en:"Maritime Law",                        ar:"القانون البحري",                   defEn:"The law that regulates all activities in maritime navigation.", defAr:"القانون الذي يشمل جميع الأنشطة التي يمارسها الإنسان في الملاحة البحرية."},
+  {type:'private', en:"Aviation Law / Air Law",              ar:"القانون الجوي",                    defEn:"The law that regulates aviation / air navigation.", defAr:"القانون الذي ينظم الملاحة الجوية."},
+  {type:'private', en:"Employment Law",                      ar:"قانون العمل",                      defEn:"Rules and laws that regulate the individual and collective relationships between employers and employees.", defAr:"القواعد والقوانين التي تنظم العلاقة الفردية والجماعية التي تنشأ بين أصحاب العمل والعمال."},
+  {type:'private', en:"Private International Law",           ar:"القانون الدولي الخاص",              defEn:"A set of laws and provisions that aim to regulate cross-border relations between individuals.", defAr:"مجموعة من القوانين والأحكام تهدف لتنظيم العلاقات بين الأفراد في إطار يتخطى الحدود الدولية."},
+];
+
+const sentences = [
+  {n:1,  en:"The appropriate minister may revoke the license",                       ar:"يجوز للوزير المختص أن يلغي الترخيص"},
+  {n:2,  en:"The annex attached hereto (to this agreement)",                         ar:"الملحق المرفق بهذا العقد"},
+  {n:3,  en:"Both parties hereby agree as follows",                                  ar:"اتفق الطرفان بموجب هذا العقد على ما يلي"},
+  {n:4,  en:"Both parties shall observe the laws applicable in Egypt",               ar:"يراعي الطرفان القوانين (المعمول بها/السارية/المطبقة) في مصر"},
+  {n:5,  en:"First party may inspect the goods supplied",                            ar:"يجوز للطرف الأول أن يعاين البضائع الموردة"},
+  {n:6,  en:"The accused man has a motive and does not have an alibi",               ar:"المتهم لديه دافع لارتكاب الجريمة وليس لديه حجة غياب"},
+  {n:7,  en:"The man was found guilty and sent to prison for five years",            ar:"أُدين الرجل وحُكم عليه بالسجن لمدة خمس سنوات"},
+  {n:8,  en:"Both parties have a desire to maintain the status quo",                 ar:"(يرغب الطرفان/لدى الطرفان الرغبة) في الإبقاء على الوضع الحالي"},
+  {n:9,  en:"The members of any ad hoc committee shall not exceed 7 members",        ar:"لا يتجاوز عدد أعضاء أي لجنة مختصة سبعة أفراد"},
+  {n:10, en:"Both parties received the consideration",                               ar:"تلقى الطرفان (مقابل العقد/العِوَض)"},
+  {n:11, en:"The defendant was remanded in custody",                                 ar:"أودع المتهم في الحجز"},
+  {n:12, en:"This Contract is made and entered into this Wednesday, 25th of March, 2026", ar:"تحرر هذا العقد هذا الأربعاء الموافق 25 مارس 2026"},
+  {n:13, en:"The two parties agree and covenant as follows",                         ar:"اتفق الطرفان على ما يلي"},
+  {n:14, en:"An invalid reservation shall be considered null and void",              ar:"يعتبر الحجز غير الصحيح باطلاً ولاغياً"},
+  {n:15, en:"The defendant was convicted and he is now serving a life sentence",     ar:"أدين المتهم ويقضي الآن عقوبة السجن المؤبد"},
+  // Dr. Nesreen sentences (from PDF)
+  {n:16, en:"The Constitution guarantees women's full participation in national life", ar:"يضمن الدستور المشاركة الكاملة للمرأة في الحياة العامة"},
+  {n:17, en:"Private law handles legal issues of the relationships between individuals", ar:"القانون الخاص ينظم المسائل القانونية للعلاقات بين الأفراد"},
+  {n:18, en:"This Contract is made and entered into this Tuesday, 4th of March, 2025", ar:"تحرر هذا العقد هذا الثلاثاء الرابع من مارس 2025"},
+  {n:19, en:"The man was proved guilty of assault and sent to prison for three years", ar:"ثبتت تهمة الاعتداء على الرجل وحُكم عليه بالسجن لمدة ثلاث سنوات"},
+  {n:20, en:"The accused men have been remanded in custody to await trial",           ar:"أودع المتهمون في الحجز انتظاراً للمحاكمة"},
+  {n:21, en:"New evidence came to light and the original verdict was quashed",        ar:"ظهر دليل جديد وأُلغي الحكم الأصلي"},
+  {n:22, en:"A power of attorney grants another the ability to take action on your behalf", ar:"يمنح التوكيل شخصاً آخر القدرة على اتخاذ إجراء نيابة عنك"},
+  {n:23, en:"Police carried out a raid on the premises early this morning and made three arrests", ar:"داهمت الشرطة العقار في وقت مبكر هذا الصباح وألقت القبض على ثلاثة أشخاص"},
+  {n:24, en:"The Contract is made by and between",                                    ar:"تحرر هذا العقد بين كلاً من ...... و ......"},
+  {n:25, en:"Unless otherwise provided herein",                                       ar:"ما لم ينص على خلاف ذلك في هذا العقد"},
+  {n:26, en:"The Contract shall be deemed void ab initio",                            ar:"يُعتبر العقد باطلاً من البداية"},
+  {n:27, en:"The obligation to extradite arose only where there was a relevant treaty in effect on the principle of pacta sunt servanda", ar:"لا ينشأ الالتزام بتسليم المتهم إلا عند وجود معاهدة ذات صلة سارية تستند إلى مبدأ العقد شريعة المتعاقدين"},
+  {n:28, en:"He has a very strong alibi — he was in hospital the week of the murder", ar:"لديه دليل دامغ أنه كان بالمستشفى في الأسبوع الذي وقعت فيه الجريمة"},
+  {n:29, en:"The woman will stand trial accused of murdering her husband",            ar:"ستُمثّل المرأة للمحاكمة متهمةً بقتل زوجها"},
+  {n:30, en:"The jury reached a verdict of guilty and then the judge passed sentence", ar:"أصدرت هيئة المحلفين قرار بالإدانة ومن ثم نطق القاضي بالحكم"},
+  {n:31, en:"This Contract shall continue in full force and effect until April 1st, 2025", ar:"يستمر هذا العقد سارياً/نافذاً حتى الأول من أبريل 2025"},
+  {n:32, en:"The wife brought an action for divorce and child custody",               ar:"رفعت الزوجة دعوى للطلاق وحضانة الطفل"},
+  {n:33, en:"A contravention shall be punishable by a fine",                          ar:"يُعاقب على أي مخالفة بالغرامة"},
+  {n:34, en:"Administrative law is an area of public law",                            ar:"القانون الإداري هو فرع من فروع القانون العام"},
+  {n:35, en:"The Attorney is granted full power and authority to act on my behalf",   ar:"يُمنح الوكيل سلطة وصلاحية كاملة للتصرف نيابة عني"},
+];
+
+// ===== AUTH + FRIENDS + CHAT =====
+// Simple localStorage-based system (no server needed)
+// Users stored as: lt_users = { username: {pwd, friends:[], requests:[], messages:{}} }
+
+const LS_USERS = 'lt_users_v1';
+const LS_ME    = 'lt_current_user';
+
+let currentUser = null;
+let authMode = 'login'; // 'login' | 'register'
+let activeChatFriend = null;
+let chatPollInterval = null;
+
+function lsUsers(){ try{ return JSON.parse(localStorage.getItem(LS_USERS)||'{}'); }catch(e){ return {}; } }
+function saveUsers(u){ localStorage.setItem(LS_USERS, JSON.stringify(u)); }
+function myData(){ const u=lsUsers(); return u[currentUser]||null; }
+function saveMyData(d){ const u=lsUsers(); u[currentUser]=d; saveUsers(u); }
+
+// ── AUTH MODAL ──
+function toggleAuthMode(){
+  authMode = authMode==='login' ? 'register' : 'login';
+  document.getElementById('auth-modal-title').textContent = authMode==='login' ? 'تسجيل الدخول' : 'إنشاء حساب';
+  document.getElementById('auth-modal-sub').textContent = authMode==='login' ? 'أدخل اسمك وكلمة السر للدخول' : 'اختار اسم وكلمة سر لتسجيل حسابك';
+  document.getElementById('auth-submit-btn').textContent = authMode==='login' ? 'دخول' : 'تسجيل';
+  document.getElementById('auth-switch-link').innerHTML = authMode==='login'
+    ? 'ليس لديك حساب؟ <span style="color:var(--accent);text-decoration:underline">إنشاء حساب جديد</span>'
+    : 'عندك حساب بالفعل؟ <span style="color:var(--accent);text-decoration:underline">تسجيل الدخول</span>';
+  document.getElementById('auth-error').style.display='none';
+}
+
+function authSubmit(){
+  const username = document.getElementById('auth-username').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const errEl = document.getElementById('auth-error');
+  errEl.style.display='none';
+
+  if(!username){ errEl.textContent='اكتب اسمك الأول'; errEl.style.display='block'; return; }
+  if(!password){ errEl.textContent='اكتب كلمة السر'; errEl.style.display='block'; return; }
+  if(username.length<2){ errEl.textContent='الاسم قصير جداً (2 حروف على الأقل)'; errEl.style.display='block'; return; }
+
+  const users = lsUsers();
+
+  if(authMode==='register'){
+    if(users[username]){ errEl.textContent='الاسم ده موجود بالفعل، اختار اسم تاني'; errEl.style.display='block'; return; }
+    if(password.length<3){ errEl.textContent='كلمة السر قصيرة (3 أحرف على الأقل)'; errEl.style.display='block'; return; }
+    users[username] = { pwd: password, friends:[], requests:[], messages:{}, joined: Date.now() };
+    saveUsers(users);
+    loginUser(username);
+  } else {
+    if(!users[username]){ errEl.textContent='الاسم ده مش موجود — سجل حساب جديد'; errEl.style.display='block'; return; }
+    if(users[username].pwd !== password){ errEl.textContent='كلمة السر غلط ❌'; errEl.style.display='block'; return; }
+    loginUser(username);
+  }
+}
+
+function loginUser(username){
+  currentUser = username;
+  localStorage.setItem(LS_ME, username);
+  document.getElementById('auth-modal').classList.add('hidden');
+  document.getElementById('status-name').textContent = username;
+  document.getElementById('end-btn').style.display='inline-block';
+  document.getElementById('friends-btn').style.display='inline-block';
+  document.getElementById('chat-btn').style.display='inline-block';
+  document.getElementById('social-btn').style.display='inline-block';
+  document.getElementById('profile-btn').style.display='inline-block';
+  startChatPoll();
+}
+
+function logoutUser(){
+  clearInterval(chatPollInterval);
+  currentUser=null; activeChatFriend=null;
+  localStorage.removeItem(LS_ME);
+  document.getElementById('status-name').textContent='';
+  document.getElementById('end-btn').style.display='none';
+  document.getElementById('friends-btn').style.display='none';
+  document.getElementById('chat-btn').style.display='none';
+  document.getElementById('social-btn').style.display='none';
+  document.getElementById('profile-btn').style.display='none';
+  // show auth modal again
+  document.getElementById('auth-modal').classList.remove('hidden');
+  document.getElementById('auth-username').value='';
+  document.getElementById('auth-password').value='';
+}
+
+// ── SESSION timer (kept for quiz tracking) ──
+let sessionStartTime=null, sessionTimerInterval=null, sessionBestScore=0;
+function fmt(s){ return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function beginSession(){
+  sessionStartTime=Date.now(); sessionBestScore=0;
+  clearInterval(sessionTimerInterval);
+  sessionTimerInterval=setInterval(()=>{
+    document.getElementById('session-timer').textContent=fmt(Math.floor((Date.now()-sessionStartTime)/1000));
+  },1000);
+}
+
+// ── FRIENDS ──
+function openFriendsModal(){
+  if(!currentUser) return;
+  document.getElementById('friends-modal').classList.remove('hidden');
+  renderFriendsList();
+  renderFriendRequests();
+  document.getElementById('friend-search-input').value='';
+  document.getElementById('friend-search-results').innerHTML='';
+}
+function closeFriendsModal(){ document.getElementById('friends-modal').classList.add('hidden'); }
+
+function renderFriendsList(){
+  const me = myData(); if(!me) return;
+  const list = document.getElementById('friends-list');
+  if(!me.friends||me.friends.length===0){ list.innerHTML='<div class="chat-empty">محدش في قائمتك لسه 👀<br><small>ابحث عن أصحابك بالأعلى</small></div>'; return; }
+  const users = lsUsers();
+  list.innerHTML = me.friends.map(f => {
+    const fu = users[f];
+    if(!fu) return '';
+    const initial = f.charAt(0).toUpperCase();
+    return `<div class="friend-item">
+      <div class="friend-avatar">${initial}</div>
+      <span class="friend-name">${f}</span>
+      <button class="friend-req-btn" onclick="openChatWith('${f}');closeFriendsModal()">💬 كلّمه</button>
+    </div>`;
+  }).join('');
+}
+
+function renderFriendRequests(){
+  const me = myData(); if(!me) return;
+  const sec = document.getElementById('friend-requests-section');
+  const listEl = document.getElementById('friend-requests-list');
+  if(!me.requests||me.requests.length===0){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  listEl.innerHTML = me.requests.map(r => `
+    <div class="friend-item">
+      <div class="friend-avatar">${r.charAt(0).toUpperCase()}</div>
+      <span class="friend-name">${r}</span>
+      <button class="friend-req-btn" style="border-color:var(--green);color:var(--green)" onclick="acceptRequest('${r}')">قبول ✓</button>
+      <button class="friend-req-btn" style="border-color:var(--red);color:var(--red)" onclick="rejectRequest('${r}')">رفض</button>
+    </div>`).join('');
+}
+
+function searchUsers(){
+  const q = document.getElementById('friend-search-input').value.trim().toLowerCase();
+  const res = document.getElementById('friend-search-results');
+  if(!q || q.length<2){ res.innerHTML=''; return; }
+  const users = lsUsers();
+  const me = myData();
+  const friends = me?.friends||[];
+  const pending = me?.sentRequests||[];
+  const matches = Object.keys(users).filter(u => u!==currentUser && u.toLowerCase().includes(q));
+  if(!matches.length){ res.innerHTML='<div style="direction:rtl;font-size:0.9rem;color:var(--muted);padding:0.5rem 0">مفيش نتايج</div>'; return; }
+  res.innerHTML = '<div style="font-size:0.68rem;color:var(--muted);margin-bottom:0.5rem;direction:ltr">SEARCH RESULTS</div>' +
+    matches.map(u => {
+      const isFriend = friends.includes(u);
+      const isPending = pending.includes(u);
+      const btn = isFriend
+        ? `<button class="friend-req-btn pending">أصحاب ✓</button>`
+        : isPending
+          ? `<button class="friend-req-btn pending">طلب مُرسل…</button>`
+          : `<button class="friend-req-btn" onclick="sendFriendRequest('${u}')">+ إضافة</button>`;
+      return `<div class="friend-item"><div class="friend-avatar">${u.charAt(0).toUpperCase()}</div><span class="friend-name">${u}</span>${btn}</div>`;
+    }).join('');
+}
+
+function sendFriendRequest(toUser){
+  const users = lsUsers();
+  const me = myData();
+  // add to their requests
+  if(!users[toUser].requests) users[toUser].requests=[];
+  if(!users[toUser].requests.includes(currentUser)) users[toUser].requests.push(currentUser);
+  // track sent
+  if(!me.sentRequests) me.sentRequests=[];
+  if(!me.sentRequests.includes(toUser)) me.sentRequests.push(toUser);
+  users[currentUser]=me;
+  saveUsers(users);
+  searchUsers(); // refresh results
+}
+
+function acceptRequest(fromUser){
+  const me = myData();
+  const users = lsUsers();
+  // add to both friend lists
+  if(!me.friends) me.friends=[];
+  if(!me.friends.includes(fromUser)) me.friends.push(fromUser);
+  // remove from requests
+  me.requests = (me.requests||[]).filter(r=>r!==fromUser);
+  users[currentUser]=me;
+  // add me to their friends
+  if(!users[fromUser].friends) users[fromUser].friends=[];
+  if(!users[fromUser].friends.includes(currentUser)) users[fromUser].friends.push(currentUser);
+  // remove from their sentRequests
+  if(users[fromUser].sentRequests) users[fromUser].sentRequests=users[fromUser].sentRequests.filter(r=>r!==currentUser);
+  saveUsers(users);
+  renderFriendsList(); renderFriendRequests();
+}
+
+function rejectRequest(fromUser){
+  const me = myData();
+  me.requests=(me.requests||[]).filter(r=>r!==fromUser);
+  saveMyData(me);
+  renderFriendRequests();
+}
+
+// ── CHAT ──
+function openChatModal(){
+  if(!currentUser) return;
+  document.getElementById('chat-modal').classList.remove('hidden');
+  renderChatTabs();
+  if(activeChatFriend) loadChatWith(activeChatFriend);
+}
+function closeChatModal(){ document.getElementById('chat-modal').classList.add('hidden'); }
+
+function openChatWith(friend){
+  activeChatFriend=friend;
+  document.getElementById('chat-modal').classList.remove('hidden');
+  renderChatTabs();
+  loadChatWith(friend);
+}
+
+function renderChatTabs(){
+  const me=myData(); if(!me) return;
+  const friends=(me.friends||[]);
+  const tabBar=document.getElementById('chat-tabs');
+  if(!friends.length){ tabBar.innerHTML=''; return; }
+  tabBar.innerHTML=friends.map(f=>`
+    <button class="chat-tab ${f===activeChatFriend?'active':''}" onclick="activeChatFriend='${f}';loadChatWith('${f}');renderChatTabs()">${f}</button>
+  `).join('');
+}
+
+function getMessages(friend){
+  const me=myData(); if(!me) return [];
+  const key=[currentUser,friend].sort().join('__');
+  return (me.messages||{})[key]||[];
+}
+
+function saveMessages(friend, msgs){
+  const me=myData();
+  const key=[currentUser,friend].sort().join('__');
+  if(!me.messages) me.messages={};
+  me.messages[key]=msgs;
+  saveMyData(me);
+  // also mirror to friend's storage
+  const users=lsUsers();
+  if(users[friend]){
+    if(!users[friend].messages) users[friend].messages={};
+    users[friend].messages[key]=msgs;
+    saveUsers(users);
+  }
+}
+
+function loadChatWith(friend){
+  const area=document.getElementById('chat-messages-area');
+  const footer=document.getElementById('chat-footer');
+  document.getElementById('chat-modal-title').textContent='💬 '+friend;
+  footer.style.display='flex';
+  document.getElementById('chat-msg-input').focus();
+  renderChatMessages(friend);
+}
+
+function renderChatMessages(friend){
+  const area=document.getElementById('chat-messages-area');
+  const msgs=getMessages(friend);
+  if(!msgs.length){ area.innerHTML='<div class="chat-empty">ابدأ المحادثة! 👋</div>'; return; }
+  area.innerHTML=msgs.map(m=>{
+    const isMine=m.from===currentUser;
+    const time=new Date(m.ts).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="chat-msg ${isMine?'mine':'theirs'}">
+      ${!isMine?`<div class="chat-sender">${m.from}</div>`:''}
+      <div class="chat-bubble">${escHtml(m.text)}</div>
+      <div class="chat-time">${time}</div>
+    </div>`;
+  }).join('');
+  area.scrollTop=area.scrollHeight;
+}
+
+function sendChatMsg(){
+  if(!activeChatFriend||!currentUser) return;
+  const input=document.getElementById('chat-msg-input');
+  const text=input.value.trim();
+  if(!text) return;
+  input.value='';
+  const msgs=getMessages(activeChatFriend);
+  msgs.push({ from:currentUser, text, ts:Date.now() });
+  saveMessages(activeChatFriend, msgs);
+  renderChatMessages(activeChatFriend);
+}
+
+function escHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function startChatPoll(){
+  clearInterval(chatPollInterval);
+  chatPollInterval=setInterval(()=>{
+    // refresh chat if open
+    if(activeChatFriend && !document.getElementById('chat-modal').classList.contains('hidden')){
+      renderChatMessages(activeChatFriend);
+    }
+    // check for unread friend requests
+    const me=myData();
+    if(me&&me.requests&&me.requests.length>0){
+      const badge=document.getElementById('chat-unread-badge');
+      if(badge){ badge.textContent=me.requests.length; badge.style.display='flex'; }
+    }
+  }, 2000);
+}
+
+// ── INIT AUTH ──
+(function initAuth(){
+  const saved=localStorage.getItem(LS_ME);
+  if(saved && lsUsers()[saved]){
+    currentUser=saved;
+    document.getElementById('auth-modal').classList.add('hidden');
+    document.getElementById('status-name').textContent=saved;
+    document.getElementById('end-btn').style.display='inline-block';
+    document.getElementById('friends-btn').style.display='inline-block';
+    document.getElementById('chat-btn').style.display='inline-block';
+    document.getElementById('social-btn').style.display='inline-block';
+    document.getElementById('profile-btn').style.display='inline-block';
+    startChatPoll();
+  }
+})();
+
+// ===== ADMIN =====
+const ADMIN_PWD='anything123';
+function openAdminModal(){ document.getElementById('admin-modal').classList.remove('hidden'); document.getElementById('admin-pwd-input').value=''; document.getElementById('admin-error').style.display='none'; }
+function closeAdminModal(){ document.getElementById('admin-modal').classList.add('hidden'); }
+function confirmAdminClear(){
+  if(document.getElementById('admin-pwd-input').value===ADMIN_PWD){
+    closeAdminModal();
+  } else { document.getElementById('admin-error').style.display='block'; }
+}
+
+// ===== (no leaderboard) =====
+function saveToLeaderboard(){ /* removed */ }
+function renderLeaderboard(){ /* removed */ }
+
+// ===== RENDER =====
+function renderGlossary(){
+  document.getElementById('glossary-body').innerHTML=glossary.map(g=>`
+    <tr>
+      <td class="num-cell">${g.n}</td>
+      <td><div class="term-en">${g.en}</div>${g.extra?`<div style="font-family:'IBM Plex Mono',monospace;font-size:0.64rem;color:var(--muted);direction:ltr;margin-top:0.1rem">${g.extra}</div>`:''}</td>
+      <td><div class="term-ar">${g.ar}</div></td>
+    </tr>`).join('');
+}
+function renderLaws(){
+  document.getElementById('laws-grid').innerHTML=laws.map(l=>`
+    <div class="law-card ${l.type}">
+      <div class="law-card-header">
+        <div><div class="law-name-en">${l.en}</div><div class="law-name-ar">${l.ar}</div></div>
+        <span class="branch-label ${l.type==='public'?'pub':'priv'}">${l.type==='public'?'Public':'Private'}</span>
+      </div>
+      <div class="law-def-en">${l.defEn}</div>
+      <div class="law-def-ar">${l.defAr}</div>
+    </div>`).join('');
+}
+function renderSentences(){
+  document.getElementById('sentences-list').innerHTML=sentences.map(s=>`
+    <div class="sentence-row">
+      <div class="s-num">${s.n}</div>
+      <div class="sentence-en">${s.en}</div>
+      <div class="sentence-ar">${s.ar}</div>
+    </div>`).join('');
+}
+
+// ===== NAV =====
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ids=['glossary','laws','sentences','legalese','latin','extra','flashcards','quiz','notes'];
+  document.querySelectorAll('nav button:not(#nav-close-btn)').forEach((b,i)=>b.classList.toggle('active',ids[i]===id));
+  if(id==='flashcards') renderFlashcard();
+  closeMobileNav();
+}
+
+// ===== FLASHCARDS =====
+let fcIdx=0, fcData=[...glossary];
+function renderFlashcard(){
+  const it=fcData[fcIdx];
+  document.getElementById('fc-front-term').textContent=it.en;
+  document.getElementById('fc-back-term').textContent=it.ar;
+  document.getElementById('fc-back-sub').textContent=it.extra||'';
+  document.getElementById('fc-counter').textContent=(fcIdx+1)+' / '+fcData.length;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+function nextCard(){ fcIdx=(fcIdx+1)%fcData.length; renderFlashcard(); }
+function prevCard(){ fcIdx=(fcIdx-1+fcData.length)%fcData.length; renderFlashcard(); }
+function shuffleCards(){
+  for(let i=fcData.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcData[i],fcData[j]]=[fcData[j],fcData[i]];}
+  fcIdx=0; renderFlashcard();
+}
+
+// ===== QUIZ SETUP =====
+let qSrc='glossary', qDir='en2ar';
+
+// Build latin and extra datasets from DOM tables at runtime
+function buildLatinData(){
+  // Use hardcoded arrays matching the latin section
+  return [
+    {en:"Ab initio",ar:"من البداية"},{en:"Ad hoc",ar:"مخصصة لـ"},
+    {en:"Alibi",ar:"دليل دامغ على عدم وجود الشخص (دليل غياب)"},{en:"Bona fide",ar:"حسن نية / بحسن نية"},
+    {en:"Ipso facto",ar:"بناء على الحقيقة السابقة / بناء على ما سبق"},{en:"In status quo",ar:"الوضع الراهن"},
+    {en:"Actori incumbit onus probandi",ar:"البينة على من ادعى"},{en:"Pacta sunt servanda",ar:"العقد شريعة المتعاقدين"},
+    {en:"Nullum crimen nulla poena sine lege",ar:"لا جريمة ولا عقوبة إلا بنص"},{en:"In presentia",ar:"حضوريا"},
+    {en:"Inter alios",ar:"ضمن (آخرين)"},{en:"Ex post facto",ar:"بأثر رجعي"},
+    {en:"Laissez faire",ar:"حرية العمل"},{en:"Bona gratia",ar:"طواعية"},
+    {en:"Res judicata",ar:"الأمر المقضي به"},{en:"En masse",ar:"كليا / إجمالا"},
+    {en:"Per diem",ar:"يوميا"},{en:"Per se",ar:"في حد ذاته"},
+    {en:"Persona grata",ar:"شخص مرغوب فيه"},{en:"Persona non grata",ar:"شخص غير مرغوب فيه"},
+    {en:"Prima facie",ar:"لأول وهلة"},{en:"Pro rata",ar:"بنسبة مئوية"},
+    {en:"Regime",ar:"نظام"},{en:"Sabotage",ar:"تخريب"},
+    {en:"Sine die",ar:"إلى أجل غير مسمى"},{en:"Sub conditione",ar:"بشرط / تحت شرط"},
+    {en:"Vice versa",ar:"العكس بالعكس"},{en:"Nunc pro tunc",ar:"الآن (لينفذ) في وقت آخر"},
+  ];
+}
+function buildExtraData(){
+  return [
+    {en:"sole proprietorship",ar:"منشأة فردية"},{en:"special (limited) partnership",ar:"شركة توصية بسيطة"},
+    {en:"partnership limited by shares",ar:"شركة توصية بالأسهم"},{en:"holding company",ar:"شركة قابضة"},
+    {en:"joint venture",ar:"مشروع مشترك"},{en:"stock record",ar:"سجل الأسهم"},
+    {en:"nominal (par) value of share",ar:"القيمة الاسمية للسهم"},{en:"vote by proxy",ar:"التصويت بالوكالة"},
+    {en:"minutes of meeting",ar:"محضر الاجتماع"},{en:"civil sanctions",ar:"عقوبات مدنية"},
+    {en:"moral rules",ar:"قواعد أخلاقية"},{en:"rules of religion",ar:"قواعد دينية"},
+    {en:"code",ar:"لائحة (مجموعة قوانين)"},{en:"conduct",ar:"سلوك"},{en:"right",ar:"حق"},
+    {en:"pecuniary right",ar:"حق مالي"},{en:"real right",ar:"حق أصلي"},
+    {en:"civil rights",ar:"حقوق مدنية"},{en:"political rights",ar:"حقوق سياسية"},
+    {en:"human rights",ar:"حقوق الإنسان"},{en:"public rights",ar:"حقوق عامة"},
+    {en:"private rights",ar:"حقوق خاصة"},{en:"personal rights",ar:"حقوق شخصية"},
+    {en:"juristic person",ar:"شخص — صفة اعتبارية"},{en:"obligations",ar:"واجبات"},
+    {en:"status",ar:"وضع"},{en:"movable things",ar:"أشياء منقولة"},
+    {en:"immovable things",ar:"أشياء غير منقولة"},{en:"sources of law",ar:"مصادر القانون"},
+    {en:"public person",ar:"شخص عام (الدولة أو أي من هيئاتها)"},
+    {en:"private person",ar:"شخص عادي (شركة أو مؤسسة خاصة)"},
+    {en:"rule of law",ar:"سيادة القانون"},{en:"sanctioned",ar:"مدعم بجزاءات"},
+    {en:"divine rules",ar:"قواعد إلهية"},{en:"law of taxation",ar:"قانون الضرائب"},
+    {en:"law of criminal procedures",ar:"قانون الإجراءات الجنائية"},
+    {en:"commercial maritime law",ar:"القانون التجاري البحري"},
+    {en:"infancy (doli in capax)",ar:"دون سن المساءلة"},{en:"drunkenness",ar:"السكر"},
+    {en:"ignorance (or mistake)",ar:"الجهل بالقانون"},{en:"coercion (duress)",ar:"الإكراه"},
+    {en:"loss of memory",ar:"فقدان الذاكرة"},{en:"uncontrollable impulse",ar:"عدم التحكم في النفس"},
+    {en:"treason",ar:"خيانة"},{en:"sedition",ar:"تحريض على الفتنة"},
+    {en:"constitution",ar:"دستور"},{en:"power of attorney",ar:"توكيل"},
+  ];
+}
+function buildLegaleseData(){
+  return [
+    {en:"Hereby",ar:"بموجب هذا العقد"},{en:"Hereto",ar:"الملحق المرفق بهذا العقد"},
+    {en:"Hereof",ar:"شرط التعويضات الوارد في هذا العقد"},{en:"Herein",ar:"البيان الموضح في هذا العقد"},
+    {en:"Hereinafter",ar:"المشار إليه في هذا العقد بعد ذلك"},{en:"Hereinbefore",ar:"المنصوص عليه في هذا القانون قبل ذلك"},
+    {en:"Herewith",ar:"العقد والترجمة المحفوظة معه"},{en:"Thereby",ar:"بموجب ذلك المذكور"},
+    {en:"Thereto",ar:"الملحق المرفق بذلك العقد"},{en:"Thereof",ar:"أي جزء من ذلك الاقرار"},
+    {en:"Therein",ar:"الموجودة في ذلك المبنى"},{en:"Therefrom",ar:"الأرباح الناتجة عنه"},
+    {en:"Thereinafter",ar:"الواردة في ذلك العقد بعد ذلك"},{en:"Thereunder",ar:"وفقا لذلك العقد"},
+    {en:"Whereupon",ar:"فلهذه الأسباب / وبناء عليه"},
+    {en:"undertake",ar:"يتعهد"},{en:"prior to",ar:"قبل"},{en:"expire",ar:"ينتهي / ينقضي"},
+    {en:"at all times",ar:"في أي وقت / دوما على الدوام"},{en:"inasmuch as",ar:"فيما يخص / فيما يتعلق بـ"},
+    {en:"by and between",ar:"تحرر هذا العقد بين كلا من"},{en:"in full force and effect",ar:"ساري / نافذ في السريان"},
+    {en:"null and void",ar:"باطل / ملغى"},{en:"power and authority",ar:"السلطة / الصلاحية"},
+    {en:"in witness whereof",ar:"إثباتا لما تقدم / شهادة منا على ذلك"},
+    {en:"without prejudice to",ar:"دون الإخلال بـ / دون المساس بـ"},
+    {en:"unless otherwise provided herein",ar:"مالم ينص على خلاف ذلك"},
+    {en:"including without limitation",ar:"على سبيل المثال لا الحصر"},
+    {en:"consideration",ar:"محل العقد / المقابل / العِوَض"},
+    {en:"fine (criminal law)",ar:"الغرامة"},{en:"custody (criminal)",ar:"احتجاز / وضع المتهم في الحجز"},
+    {en:"custody (family law)",ar:"حضانة الطفل / رعاية طفل"},
+  ];
+}
+function buildLawsData(){
+  return laws.map(l=>({en:l.en, ar:l.ar}));
+}
+function getDataset(src){
+  if(src==='glossary') return [...glossary];
+  if(src==='sentences') return [...sentences];
+  if(src==='laws') return buildLawsData();
+  if(src==='latin') return buildLatinData();
+  if(src==='extra') return buildExtraData();
+  if(src==='legalese') return buildLegaleseData();
+  if(src==='all') return [...glossary, ...buildLatinData(), ...buildExtraData(), ...buildLegaleseData(), ...buildLawsData()];
+  return [...glossary];
+}
+
+document.querySelectorAll('.src-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.src-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    qSrc=b.dataset.src;
+  });
+});
+document.querySelectorAll('.dir-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.dir-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    qDir=b.dataset.dir;
+  });
+});
+
+function startQuizFromSetup(){
+  document.getElementById('quiz-setup').style.display='none';
+  document.getElementById('quiz-area').style.display='block';
+  startQuiz(qDir, qSrc);
+}
+
+// ===== QUIZ ENGINE =====
+let qMode='', qPool=[], qItems=[], qIdx=0, qScore=0, qAnswered=false, qLog=[], quizStartTime=null;
+
+function startQuiz(mode, src){
+  qMode=mode; qScore=0; qIdx=0; qLog=[];
+  quizStartTime=Date.now();
+  qPool=getDataset(src||qSrc);
+  qItems=[...qPool].sort(()=>Math.random()-0.5);
+  renderQ();
+}
+
+function getPool(item){
+  const isAr = qMode==='en2ar';
+  let correct, pool;
+  if(qMode==='ar2en'){
+    correct=item.en;
+    pool=qPool.filter(g=>g.en!==item.en).sort(()=>Math.random()-0.5).slice(0,3).map(g=>g.en);
+  } else {
+    correct=item.ar;
+    pool=qPool.filter(g=>g.ar!==item.ar).sort(()=>Math.random()-0.5).slice(0,3).map(g=>g.ar);
+  }
+  // pad if not enough options
+  while(pool.length<3) pool.push('—');
+  return {correct, options:[correct,...pool].sort(()=>Math.random()-0.5), isAr};
+}
+
+function renderQ(){
+  if(qIdx>=qItems.length){ showScore(); return; }
+  const item=qItems[qIdx];
+  qAnswered=false;
+  const qClass = qMode==='ar2en'?'ar':'en';
+  const qText  = qMode==='ar2en'?item.ar:item.en;
+  const {correct,options,isAr}=getPool(item);
+  item._correct=correct; item._qText=qText; item._qClass=qClass; item._isAr=isAr;
+
+  document.getElementById('quiz-area').innerHTML=`
+    <div class="quiz-card">
+      <div>
+        <div class="quiz-progress">${qIdx+1} / ${qItems.length} &nbsp;·&nbsp; نتيجتك: ${qScore}
+          <span style="float:left;cursor:pointer;color:var(--muted)" onclick="backToSetup()">✕ إنهاء</span>
+        </div>
+        <div class="quiz-question ${qClass}">${qText}</div>
+        <div class="quiz-options">
+          ${options.map(o=>`<button class="quiz-option ${isAr?'':'en-opt'}"
+            data-val="${encodeURIComponent(o)}"
+            data-correct="${encodeURIComponent(correct)}"
+            onclick="checkAns(this)">${o}</button>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="quiz-feedback" id="qfb"></div>
+        <button class="btn quiz-next-btn" id="qnext" onclick="nextQ()">التالي</button>
+      </div>
+    </div>`;
+}
+
+function backToSetup(){
+  document.getElementById('quiz-setup').style.display='block';
+  document.getElementById('quiz-area').style.display='none';
+  document.getElementById('quiz-area').innerHTML='';
+}
+
+function checkAns(btn){
+  if(qAnswered) return;
+  qAnswered=true;
+  const sel=decodeURIComponent(btn.getAttribute('data-val'));
+  const cor=decodeURIComponent(btn.getAttribute('data-correct'));
+  const fb=document.getElementById('qfb');
+  document.querySelectorAll('.quiz-option').forEach(b=>{
+    b.disabled=true;
+    if(decodeURIComponent(b.getAttribute('data-val'))===cor) b.classList.add('correct');
+  });
+  const ok = sel===cor;
+  if(ok){
+    qScore++;
+    if(qScore>sessionBestScore) sessionBestScore=qScore;
+    fb.textContent='✓ صحيح!';
+    fb.className='quiz-feedback';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent='الإجابة الصحيحة محددة بالأخضر';
+    fb.className='quiz-feedback wrong';
+  }
+  const item=qItems[qIdx];
+  qLog.push({qText:item._qText, qClass:item._qClass, correct:cor, userAns:sel, ok, isAr:item._isAr});
+  document.getElementById('qnext').style.display='block';
+}
+
+function nextQ(){ qIdx++; renderQ(); }
+
+function showScore(){
+  const pct=Math.round((qScore/qItems.length)*100);
+  const msg=pct>=80?'ممتاز! 🎉':pct>=60?'جيد! حاول مرة أخرى 💪':'تحتاج للمراجعة أكثر 📚';
+  const quizDur=quizStartTime?Math.floor((Date.now()-quizStartTime)/1000):0;
+  document.getElementById('quiz-area').innerHTML=`
+    <div class="quiz-card" style="min-height:auto">
+      <div class="score-display">
+        <div class="score-num">${pct}%</div>
+        <div class="score-label">${qScore} / ${qItems.length} إجابات صحيحة</div>
+        <div style="margin-top:0.3rem;font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--muted);direction:ltr">⏱ ${fmt(quizDur)}</div>
+        <div style="margin-top:0.4rem;font-family:'Amiri',serif;font-size:1.12rem;color:var(--gold)">${msg}</div>
+        <div style="margin-top:1.1rem;display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap">
+          <button class="btn" onclick="startQuiz(qMode,qSrc)">إعادة الاختبار</button>
+          <button class="btn secondary" onclick="backToSetup()">اختيار آخر</button>
+        </div>
+      </div>
+    </div>
+    <div class="review-section">
+      <h3>مراجعة جميع الأسئلة</h3>
+      ${buildReview()}
+    </div>`;
+}
+
+function buildReview(){
+  return qLog.map((e,i)=>{
+    const isEnQ=e.qClass==='en';
+    const ansEnCls=e.isAr?'':'en-ans';
+    if(e.ok){
+      return `<div class="review-item was-correct">
+        <div class="review-header"><span>✅</span><span>سؤال ${i+1} — صحيح</span></div>
+        <div class="review-q ${isEnQ?'en':'ar'}">${e.qText}</div>
+        <div class="review-answers">
+          <div class="review-ans user-correct ${ansEnCls}"><span class="review-lbl">${e.isAr?'إجابتك الصحيحة':'Your correct answer'}</span>${e.userAns}</div>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="review-item was-wrong">
+        <div class="review-header"><span>❌</span><span>سؤال ${i+1} — خطأ</span></div>
+        <div class="review-q ${isEnQ?'en':'ar'}">${e.qText}</div>
+        <div class="review-answers">
+          <div class="review-ans user-wrong ${ansEnCls}"><span class="review-lbl">${e.isAr?'إجابتك':'Your answer'}</span>${e.userAns}</div>
+          <div class="review-ans correct-ans ${ansEnCls}"><span class="review-lbl">${e.isAr?'الإجابة الصحيحة':'Correct answer'}</span>${e.correct}</div>
+        </div>
+      </div>`;
+    }
+  }).join('');
+}
+
+// ===== MOBILE NAV =====
+function toggleMobileNav(){
+  const nav=document.getElementById('main-nav');
+  const btn=document.getElementById('nav-toggle');
+  const ovl=document.getElementById('nav-overlay');
+  const isOpen=nav.classList.contains('mobile-open');
+  if(isOpen){ closeMobileNav(); } else {
+    nav.classList.add('mobile-open');
+    btn.classList.add('open');
+    ovl.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+}
+function closeMobileNav(){
+  document.getElementById('main-nav').classList.remove('mobile-open');
+  document.getElementById('nav-toggle').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+
+// ===== INIT =====
+renderGlossary();
+renderLaws();
+renderSentences();
+renderFlashcard();
+// ===== TTS =====
+let ttsActive = null;
+function speak(text) {
+  if (!('speechSynthesis' in window)) { alert('المتصفح لا يدعم نطق الكلمات'); return; }
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'en-US'; utt.rate = 0.85; utt.pitch = 1;
+  const voices = window.speechSynthesis.getVoices();
+  const enVoice = voices.find(v => v.lang.startsWith('en') && !v.name.includes('Google') && v.name.includes('Female'))
+               || voices.find(v => v.lang.startsWith('en-'));
+  if (enVoice) utt.voice = enVoice;
+  if (ttsActive) { ttsActive.classList.remove('speaking'); ttsActive = null; }
+  const btn = document.querySelector(`.tts-btn[onclick*="${CSS.escape(text)}"]`);
+  if (btn) { btn.classList.add('speaking'); ttsActive = btn; }
+  utt.onend = () => { if (ttsActive) { ttsActive.classList.remove('speaking'); ttsActive = null; } };
+  window.speechSynthesis.speak(utt);
+}
+// Pre-load voices
+if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); }
+
+// ===== HIDDEN NUMBERS (shown only after password) =====
+// ADMIN_PWD already declared
+let numbersVisible = false;
+
+function toggleNumbers() {
+  if (!numbersVisible) {
+    const pwd = prompt('أدخل كلمة السر لإظهار الأرقام:');
+    if (pwd !== ADMIN_PWD) { alert('كلمة السر غلط ❌'); return; }
+    numbersVisible = true;
+  } else { numbersVisible = false; }
+  document.querySelectorAll('.num-cell, #num-col-hdr').forEach(el => {
+    el.style.display = numbersVisible ? '' : 'none';
+  });
+  const badge = document.getElementById('row-count-badge');
+  if (badge) { badge.style.display = numbersVisible ? 'inline-block' : 'none'; badge.textContent = glossary.length + ' مصطلح'; }
+}
+
+// ===== SUPABASE CONFIG =====
+const SB_URL = 'https://yjwyb fdcassfirihccub.supabase.co'.replace(' ','');
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder';
+
+async function sbFetch(path, method='GET', body=null) {
+  const headers = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+  try {
+    const r = await fetch(SB_URL + path, opts);
+    if (!r.ok) throw new Error(r.status);
+    const ct = r.headers.get('content-type') || '';
+    return ct.includes('json') ? await r.json() : [];
+  } catch(e) { console.warn('Supabase:', e.message); return null; }
+}
+
+// Use localStorage as fallback when Supabase is unavailable
+function lsGet(key) { try { return JSON.parse(localStorage.getItem('legal_'+key)||'[]'); } catch(e){ return []; } }
+function lsSet(key, val) { try { localStorage.setItem('legal_'+key, JSON.stringify(val)); } catch(e){} }
+function lsGetObj(key, def={}) { try { return JSON.parse(localStorage.getItem('legal_obj_'+key)||JSON.stringify(def)); } catch(e){ return def; } }
+function lsSetObj(key, val) { try { localStorage.setItem('legal_obj_'+key, JSON.stringify(val)); } catch(e){} }
+
+// ===== ADMIN PANEL AUTH =====
+let adminAuthed = false;
+
+function openAdminPanel() {
+  if (!adminAuthed) {
+    const pwd = prompt('كلمة سر الأدمن:');
+    if (pwd !== ADMIN_PWD) { if(pwd!==null) alert('كلمة السر غلط ❌'); return; }
+    adminAuthed = true;
+  }
+  document.getElementById('admin-panel-overlay').classList.remove('hidden');
+  loadMediaGrid();
+  loadSavedTables();
+  loadSavedExams();
+  loadAnnouncementAdmin();
+  loadCustomSettings();
+}
+
+function closeAdminPanel() {
+  document.getElementById('admin-panel-overlay').classList.add('hidden');
+}
+
+function switchAdminTab(id) {
+  document.querySelectorAll('.ap-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.ap-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = ['ap-media','ap-words','ap-exam','ap-announce','ap-custom'];
+  document.querySelectorAll('.ap-tab').forEach((t,i) => { if(tabs[i]===id) t.classList.add('active'); });
+  if (id==='ap-media') loadMediaGrid();
+  if (id==='ap-words') loadSavedTables();
+  if (id==='ap-exam') loadSavedExams();
+}
+
+// ===== ADMIN: MEDIA UPLOAD =====
+async function uploadMedia() {
+  const fileInput = document.getElementById('ap-file-input');
+  const titleInput = document.getElementById('ap-file-title');
+  const file = fileInput.files[0];
+  if (!file) { showApMsg('ap-upload-msg', 'اختر ملف أولاً', 'err'); return; }
+
+  const prog = document.getElementById('ap-upload-progress');
+  const bar = document.getElementById('ap-progress-bar');
+  const txt = document.getElementById('ap-progress-txt');
+  prog.style.display = 'block'; bar.style.width = '10%'; txt.textContent = 'جاري الرفع...';
+
+  // Store file as base64 in localStorage (fallback — Supabase storage needs backend)
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    bar.style.width = '60%';
+    const data = { id: Date.now(), name: file.name, title: titleInput.value||file.name, type: file.type, data: e.target.result, size: file.size, date: new Date().toLocaleDateString('ar-EG') };
+    const existing = lsGet('media');
+    existing.push(data);
+    lsSet('media', existing);
+    bar.style.width = '100%'; txt.textContent = 'تم بنجاح ✓';
+    setTimeout(() => { prog.style.display='none'; bar.style.width='0%'; }, 1500);
+    showApMsg('ap-upload-msg', 'تم رفع الملف بنجاح ✓', 'ok');
+    fileInput.value=''; titleInput.value='';
+    loadMediaGrid();
+  };
+  reader.onerror = () => { showApMsg('ap-upload-msg','فشل الرفع ❌','err'); prog.style.display='none'; };
+  reader.readAsDataURL(file);
+}
+
+function loadMediaGrid() {
+  const grid = document.getElementById('ap-media-grid');
+  const items = lsGet('media');
+  if (!items.length) { grid.innerHTML = '<p style="font-size:0.9rem;color:var(--muted)">لا توجد ملفات بعد</p>'; return; }
+  grid.innerHTML = items.map((item,i) => {
+    let preview = '';
+    if (item.type.startsWith('image/')) preview = `<img src="${item.data}" alt="${item.title}">`;
+    else if (item.type.startsWith('video/')) preview = `<video src="${item.data}" muted></video>`;
+    else preview = `<div style="height:85px;display:flex;align-items:center;justify-content:center;font-size:1.8rem">📄</div>`;
+    return `<div class="media-item">${preview}<span class="ml">${item.title}</span><button class="mdel" onclick="deleteMedia(${i})">حذف</button></div>`;
+  }).join('');
+}
+
+function deleteMedia(i) {
+  const items = lsGet('media');
+  items.splice(i,1);
+  lsSet('media', items);
+  loadMediaGrid();
+  renderAnnouncementBanner(); // refresh public display
+}
+
+// ===== ADMIN: WORD TABLES =====
+let wordBuilder = [];
+
+function addWordRow() {
+  const en = document.getElementById('ap-word-en').value.trim();
+  const ar = document.getElementById('ap-word-ar').value.trim();
+  if (!en && !ar) return;
+  wordBuilder.push({en, ar});
+  document.getElementById('ap-word-en').value='';
+  document.getElementById('ap-word-ar').value='';
+  renderWordPreview();
+}
+
+function renderWordPreview() {
+  const prev = document.getElementById('ap-words-preview');
+  if (!wordBuilder.length) { prev.innerHTML=''; return; }
+  prev.innerHTML = `<table class="data-table" style="margin-bottom:0.5rem">
+    <thead><tr><th style="direction:ltr">English</th><th style="direction:rtl">العربي</th><th style="width:30px"></th></tr></thead>
+    <tbody>${wordBuilder.map((w,i)=>`<tr><td class="term-en">${w.en}</td><td class="term-ar">${w.ar}</td><td><button onclick="removeWordRow(${i})" style="background:none;border:none;cursor:pointer;color:var(--red)">✕</button></td></tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function removeWordRow(i) { wordBuilder.splice(i,1); renderWordPreview(); }
+
+function saveWordTable() {
+  const title = document.getElementById('ap-words-title').value.trim() || 'جدول بدون عنوان';
+  if (!wordBuilder.length) { showApMsg('ap-words-msg','أضف كلمات أولاً','err'); return; }
+  const tables = lsGet('word_tables');
+  tables.push({ id: Date.now(), title, words: [...wordBuilder], date: new Date().toLocaleDateString('ar-EG') });
+  lsSet('word_tables', tables);
+  wordBuilder=[]; renderWordPreview();
+  document.getElementById('ap-words-title').value='';
+  showApMsg('ap-words-msg','تم حفظ الجدول ✓','ok');
+  loadSavedTables();
+  renderPublicTables(); // update public view
+}
+
+function clearWordBuilder() { wordBuilder=[]; renderWordPreview(); document.getElementById('ap-words-title').value=''; }
+
+function loadSavedTables() {
+  const tables = lsGet('word_tables');
+  const container = document.getElementById('ap-saved-tables');
+  if (!tables.length) { container.innerHTML='<p style="font-size:0.9rem;color:var(--muted)">لا توجد جداول بعد</p>'; return; }
+  container.innerHTML = tables.map((t,i) => `
+    <div class="ap-card">
+      <div class="ap-card-title">${t.title} — ${t.date} (${t.words.length} كلمة)</div>
+      <button class="ap-btn danger" style="font-size:0.68rem;padding:0.3rem 0.7rem" onclick="deleteWordTable(${i})">حذف</button>
+    </div>`).join('');
+}
+
+function deleteWordTable(i) {
+  const tables = lsGet('word_tables');
+  tables.splice(i,1);
+  lsSet('word_tables', tables);
+  loadSavedTables();
+  renderPublicTables();
+}
+
+// ===== ADMIN: EXAM BUILDER =====
+let examQuestions = [];
+
+function addExamQuestion(type) {
+  const id = Date.now();
+  examQuestions.push({ id, type, question:'', choices:['','','',''], answer:'' });
+  renderExamBuilder();
+}
+
+function renderExamBuilder() {
+  const container = document.getElementById('ap-exam-questions');
+  container.innerHTML = examQuestions.map((q,i) => {
+    const typeLabel = q.type==='mcq'?'اختيار متعدد':q.type==='text'?'مقالي':'ترجمة';
+    let body = `<div class="ap-field"><label>السؤال</label><input type="text" class="ap-input" value="${q.question}" onchange="examQuestions[${i}].question=this.value" placeholder="نص السؤال..." /></div>`;
+    if (q.type==='mcq') {
+      body += `<div class="ap-field"><label>الاختيارات</label>${q.choices.map((c,ci)=>`<input type="text" class="ap-input" style="margin-bottom:0.3rem" value="${c}" placeholder="اختيار ${ci+1}" onchange="examQuestions[${i}].choices[${ci}]=this.value">`).join('')}</div>`;
+      body += `<div class="ap-field"><label>الإجابة الصحيحة</label><input type="text" class="ap-input" value="${q.answer}" onchange="examQuestions[${i}].answer=this.value" placeholder="الإجابة الصحيحة..."></div>`;
+    } else {
+      body += `<div class="ap-field"><label>نموذج الإجابة (للمدرس)</label><input type="text" class="ap-input" value="${q.answer}" onchange="examQuestions[${i}].answer=this.value" placeholder="إجابة نموذجية..."></div>`;
+    }
+    return `<div class="exam-builder-q"><button class="rm-q" onclick="removeExamQ(${i})">✕</button><div style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:0.5rem;direction:ltr">Q${i+1} · ${typeLabel}</div>${body}</div>`;
+  }).join('');
+}
+
+function removeExamQ(i) { examQuestions.splice(i,1); renderExamBuilder(); }
+
+function saveExam() {
+  const title = document.getElementById('ap-exam-title').value.trim() || 'امتحان بدون عنوان';
+  const instructions = document.getElementById('ap-exam-instructions').value.trim();
+  if (!examQuestions.length) { showApMsg('ap-exam-msg','أضف أسئلة أولاً','err'); return; }
+  const exams = lsGet('exams');
+  exams.push({ id: Date.now(), title, instructions, questions:[...examQuestions], date: new Date().toLocaleDateString('ar-EG') });
+  lsSet('exams', exams);
+  examQuestions=[]; renderExamBuilder();
+  document.getElementById('ap-exam-title').value='';
+  document.getElementById('ap-exam-instructions').value='';
+  showApMsg('ap-exam-msg','تم حفظ الامتحان ✓','ok');
+  loadSavedExams();
+  renderPublicExams();
+}
+
+function clearExam() { examQuestions=[]; renderExamBuilder(); document.getElementById('ap-exam-title').value=''; document.getElementById('ap-exam-instructions').value=''; }
+
+function loadSavedExams() {
+  const exams = lsGet('exams');
+  const c = document.getElementById('ap-saved-exams');
+  if (!exams.length) { c.innerHTML='<p style="font-size:0.9rem;color:var(--muted)">لا توجد امتحانات بعد</p>'; return; }
+  c.innerHTML = exams.map((e,i)=>`<div class="ap-card"><div class="ap-card-title">${e.title} — ${e.date} (${e.questions.length} سؤال)</div><button class="ap-btn danger" style="font-size:0.68rem;padding:0.3rem 0.7rem" onclick="deleteExam(${i})">حذف</button></div>`).join('');
+}
+
+function deleteExam(i) {
+  const exams = lsGet('exams');
+  exams.splice(i,1);
+  lsSet('exams', exams);
+  loadSavedExams();
+  renderPublicExams();
+}
+
+// ===== ADMIN: ANNOUNCEMENT =====
+function saveAnnouncement() {
+  const text = document.getElementById('ap-announce-text').value.trim();
+  const author = document.getElementById('ap-announce-author').value.trim();
+  if (!text) { showApMsg('ap-announce-msg','اكتب نص الإعلان أولاً','err'); return; }
+  lsSetObj('announcement', { text, author, date: new Date().toLocaleDateString('ar-EG') });
+  showApMsg('ap-announce-msg','تم نشر الإعلان ✓','ok');
+  renderAnnouncementBanner();
+}
+
+function clearAnnouncement() {
+  lsSetObj('announcement', {});
+  document.getElementById('ap-announce-text').value='';
+  document.getElementById('ap-announce-author').value='';
+  showApMsg('ap-announce-msg','تم مسح الإعلان','ok');
+  renderAnnouncementBanner();
+}
+
+function loadAnnouncementAdmin() {
+  const ann = lsGetObj('announcement');
+  if (ann.text) {
+    document.getElementById('ap-announce-text').value = ann.text;
+    document.getElementById('ap-announce-author').value = ann.author||'';
+  }
+}
+
+function renderAnnouncementBanner() {
+  let banner = document.getElementById('announcement-banner');
+  const ann = lsGetObj('announcement');
+  if (!ann.text) { if (banner) banner.remove(); return; }
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'announcement-banner';
+    banner.style.cssText = 'background:#fffbeb;border-bottom:2px solid #fde68a;padding:0.65rem 1.2rem;direction:rtl;font-family:\'Amiri\',serif;font-size:0.95rem;line-height:1.6;position:relative;z-index:10;';
+    document.querySelector('header').insertAdjacentElement('afterend', banner);
+  }
+  banner.innerHTML = `<strong style="color:var(--gold)">📢 إعلان${ann.author?' — '+ann.author:''}:</strong> ${ann.text} <span style="font-family:\'IBM Plex Mono\',monospace;font-size:0.68rem;color:var(--muted)">${ann.date||''}</span>`;
+}
+
+// ===== ADMIN: CUSTOM SETTINGS =====
+function loadCustomSettings() {
+  const s = lsGetObj('custom_settings');
+  if (s.siteTitle) document.getElementById('ap-site-title').value = s.siteTitle;
+  if (s.schoolName) document.getElementById('ap-school-name').value = s.schoolName;
+}
+
+function saveCustomSettings() {
+  const siteTitle = document.getElementById('ap-site-title').value.trim();
+  const schoolName = document.getElementById('ap-school-name').value.trim();
+  lsSetObj('custom_settings', { siteTitle, schoolName });
+  if (siteTitle) { document.querySelector('.header-title').textContent = siteTitle + ' ⚖️'; document.title = siteTitle; }
+  showApMsg('ap-custom-msg','تم الحفظ ✓','ok');
+}
+
+function nukeAll() {
+  if (!confirm('هل أنت متأكد تماماً من مسح كل البيانات؟')) return;
+  ['media','word_tables','exams'].forEach(k => lsSet(k, []));
+  ['announcement','custom_settings'].forEach(k => localStorage.removeItem('legal_obj_'+k));
+  showApMsg('ap-custom-msg','تم مسح كل البيانات ✓','ok');
+  renderAnnouncementBanner();
+  renderPublicTables();
+  renderPublicExams();
+}
+
+function showApMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = `<div class="ap-msg ${type}">${msg}</div>`;
+  setTimeout(() => { el.innerHTML = ''; }, 3000);
+}
+
+// ===== PUBLIC WORD TABLES RENDER =====
+function renderPublicTables() {
+  let container = document.getElementById('public-word-tables');
+  if (!container) return;
+  const tables = lsGet('word_tables');
+  if (!tables.length) { container.innerHTML = ''; return; }
+  container.innerHTML = tables.map(t => `
+    <div style="margin-bottom:1.2rem">
+      <h3 style="font-family:'Amiri',serif;font-size:1rem;color:var(--ink);direction:rtl;margin-bottom:0.5rem">📋 ${t.title}</h3>
+      <table class="data-table">
+        <thead><tr><th style="direction:ltr">English</th><th style="direction:rtl">العربي</th><th style="width:36px"></th></tr></thead>
+        <tbody>${t.words.map(w=>`<tr><td class="term-en">${w.en}</td><td class="term-ar">${w.ar}</td><td><button class="tts-btn" onclick="speak('${w.en.replace(/'/g,"\\'")}')">🔊</button></td></tr>`).join('')}</tbody>
+      </table>
+    </div>`).join('');
+}
+
+// ===== PUBLIC EXAMS RENDER =====
+function renderPublicExams() {
+  let container = document.getElementById('public-exams');
+  if (!container) return;
+  const exams = lsGet('exams');
+  if (!exams.length) { container.innerHTML = '<p style="font-size:1rem;color:var(--muted);direction:rtl">لا توجد امتحانات منشورة حالياً</p>'; return; }
+  container.innerHTML = exams.map(exam => `
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.1rem;margin-bottom:1rem;box-shadow:0 2px 8px var(--shadow)">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);margin-bottom:0.4rem">${exam.title}</h3>
+      ${exam.instructions?`<p style="font-family:'Amiri',serif;font-size:0.9rem;color:var(--muted);direction:rtl;margin-bottom:0.7rem">${exam.instructions}</p>`:''}
+      ${exam.questions.map((q,i)=>`
+        <div style="margin-bottom:0.7rem;padding:0.6rem 0.85rem;background:var(--cream);border-radius:8px;direction:rtl">
+          <div style="font-family:'Amiri',serif;font-size:0.95rem;font-weight:bold;margin-bottom:0.35rem">سؤال ${i+1}: ${q.question}</div>
+          ${q.type==='mcq'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem;">${q.choices.filter(c=>c).map((c,ci)=>`<label style="font-family:'Amiri',serif;font-size:0.88rem;display:flex;align-items:center;gap:0.35rem;cursor:pointer"><input type="radio" name="exam_${exam.id}_q${i}" value="${c}"> ${c}</label>`).join('')}</div>`:
+          `<textarea style="width:100%;border:1px solid var(--border);border-radius:6px;padding:0.4rem;font-family:'Amiri',serif;font-size:0.9rem;resize:vertical;min-height:55px" placeholder="اكتب إجابتك هنا..."></textarea>`}
+        </div>`).join('')}
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);direction:ltr;margin-top:0.4rem">${exam.date}</div>
+    </div>`).join('');
+}
+
+// ===== DR. NESREEN BILINGUAL CONTENT =====
+function renderNesreenBilingual() {
+  const c = document.getElementById('nesreen-bilingual');
+  if (!c) return;
+  const pairs = [
+    { ar:'القانون العام هو مجموعة من القواعد والأنظمة التي تنظم العلاقات بين طرفين تكون للدولة السلطة السيادية فيها بصفتها ذات سيادة وقوة وليست مجرد شخص اعتباري.', en:'Public law is a set of rules and regulations that govern relations between two parties where the state, as a sovereign power not as a legal person, is one of them.' },
+    { ar:'القانون الخاص هو مجموعة من القواعد والأنظمة التي تنظم تعاملات الأفراد فيما بينهم، ولا تكون الدولة أحد طرفيها بصفتها السيادية.', en:'Private law is a set of rules and regulations that govern relations between individuals where the state, as a sovereign power, is not one of them.' },
+    { ar:'القانون الدولي العام هو مجموعة من القوانين والأحكام التي تهدف إلى تنظيم العلاقات بين الدول وبعضها سواء في السلم أو الحرب.', en:'Public International Law is a set of laws and provisions that aim to regulate relations between states in peace and war.' },
+    { ar:'القانون الجنائي هو مجموعة من القواعد القانونية التي تبين الجرائم، وتفرض العقوبات أو التدابير لكل جريمة على حدة.', en:'Criminal Law is a set of legal rules that define crimes or criminal offenses and impose penalties or set procedures for each crime.' },
+    { ar:'القانون الدستوري هو القانون الذي يضم جميع التشريعات والقواعد التي تضمن للأفراد حقوقهم في الدولة، مثل حق المشاركة في الانتخابات سواء بالترشح لها أو التصويت فيها.', en:'Constitutional Law is the law that comprises all the legislations and rules that protect the rights of individuals in the state, such as the right to participate in elections, whether as a candidate or as a voter.' },
+    { ar:'القانون المالي هو القانون الذي ينظم الميزانية العامة للدولة وما يخصها من موارد ونفقات.', en:'Financial Law is the law that regulates the state budget, including revenues and expenditures.' },
+    { ar:'القانون الإداري هو القانون الذي ينظم العلاقة بين المؤسسات الإدارية وأفراد المجتمع، مثل عمليات التوظيف وإدارة المرافق.', en:'Administrative Law is the law that regulates the relationship between administrative institutions and individuals, such as recruitment processes and the management of public utilities.' },
+    { ar:'القانون المدني هو الذي يهتم بقوانين الأحوال الشخصية للأفراد مثل الملكية، والحصول على الجنسية كما يهتم بالمعاملات المالية.', en:'Civil Law is the law that regulates individuals\' personal affairs such as property, acquisition of citizenship, and transactions.' },
+    { ar:'القانون التجاري هو الذي يهتم بالتجارة وحقوق الشركات التجارية والبنوك.', en:'Commercial Law is the law that regulates trade, the rights of business entities, and banks.' },
+    { ar:'قانون المرافعات المدنية والتجارية هو الذي يهتم بتنظيم تقديم الشكاوى، أو طلبات الاستئناف، وحل نزاعات معينة عن طريق توجيه الأفراد لمؤسسات القضاء للمطالبة بحقوقهم.', en:'Law of Civil and Commercial Procedures is the law that regulates filing complaints or appeals and resolving disputes by referring individuals to judicial institutions to claim their rights.' },
+    { ar:'القانون البحري هو القانون الذي يشمل جميع الأنشطة التي يمارسها الإنسان في الملاحة البحرية.', en:'Maritime Law is the law that regulates maritime navigation.' },
+    { ar:'القانون الجوي هو القانون الذي ينظم الملاحة الجوية.', en:'Aviation Law is the law that regulates air navigation.' },
+    { ar:'قانون العمل يتمثل في القواعد والقوانين التي تنظم العلاقة الفردية والجماعية التي تنشأ بين أصحاب العمل والعمال.', en:'Employment Law is the rules and laws that regulate the individual and collective relationships between employers and employees.' },
+    { ar:'القانون الدولي الخاص هو مجموعة من القوانين والأحكام تهدف لتنظيم العلاقات بين الأفراد لكن في إطار يتخطى الحدود الدولية، سواء أكانت العلاقة اقتصادية أم تجارية أم اجتماعية أم غيرها.', en:'Private International Law is a set of laws and provisions that aim to regulate cross-border relations between individuals — economic, commercial, social, or otherwise.' },
+  ];
+  c.innerHTML = pairs.map(p => `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.7rem;background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 4px var(--shadow)">
+      <div style="padding:0.8rem 0.9rem;direction:rtl;font-family:'Amiri',serif;font-size:0.95rem;line-height:1.7;border-left:1px solid var(--border)">${p.ar}</div>
+      <div style="padding:0.8rem 0.9rem;direction:ltr;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;line-height:1.7;color:var(--accent)">${p.en}</div>
+    </div>`).join('');
+}
+
+// ===== UPDATE showSection to include new sections =====
+const _origShowSection = showSection;
+showSection = function(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  const ids = ['glossary','laws','sentences','nesreen','legalese','latin','extra','flashcards','quiz','notes'];
+  document.querySelectorAll('nav button:not(#nav-close-btn):not([onclick="openAdminPanel()"])').forEach((b,i) => b.classList.toggle('active', ids[i]===id));
+  if (id==='flashcards') renderFlashcard();
+  if (id==='nesreen') { renderNesreenBilingual(); renderPublicTables(); renderPublicExams(); }
+  closeMobileNav();
+};
+
+// Override renderGlossary to add TTS + hidden numbers
+const _origRenderGlossary = renderGlossary;
+renderGlossary = function() {
+  document.getElementById('glossary-body').innerHTML = glossary.map(g => `
+    <tr>
+      <td class="num-cell" style="display:${numbersVisible?'':'none'}">${g.n}</td>
+      <td><div class="term-en">${g.en}</div>${g.extra?`<div style="font-family:'IBM Plex Mono',monospace;font-size:0.64rem;color:var(--muted);direction:ltr;margin-top:0.1rem">${g.extra}</div>`:''}</td>
+      <td><div class="term-ar">${g.ar}</div></td>
+      <td><button class="tts-btn" onclick="speak('${g.en.replace(/'/g,"\\'")}')">🔊</button></td>
+    </tr>`).join('');
+  // Also add toggle-numbers link to glossary title
+  const title = document.querySelector('#glossary .section-title');
+  if (title && !title.querySelector('.num-toggle')) {
+    const btn = document.createElement('button');
+    btn.className = 'num-toggle';
+    btn.style.cssText = 'background:none;border:none;font-family:"IBM Plex Mono",monospace;font-size:0.65rem;color:var(--muted);cursor:pointer;margin-right:0.5rem;padding:0.1rem 0.3rem;border:1px solid var(--border);border-radius:4px;';
+    btn.textContent = '#';
+    btn.title = 'إظهار/إخفاء الأرقام';
+    btn.onclick = toggleNumbers;
+    title.appendChild(btn);
+  }
+};
+
+// Also add TTS to sentence rows
+const _origRenderSentences = renderSentences;
+renderSentences = function() {
+  document.getElementById('sentences-list').innerHTML = sentences.map(s => `
+    <div class="sentence-row">
+      <div class="s-num">${s.n}</div>
+      <div class="sentence-en" style="display:flex;align-items:flex-start;gap:0.4rem">${s.en} <button class="tts-btn" style="flex-shrink:0" onclick="speak('${s.en.replace(/'/g,"\\'")}')">🔊</button></div>
+      <div class="sentence-ar">${s.ar}</div>
+    </div>`).join('');
+};
+
+// ===== DR. NESREEN public section: add containers for dynamic content =====
+document.addEventListener('DOMContentLoaded', () => {
+  const nesreenSec = document.getElementById('nesreen');
+  if (nesreenSec) {
+    // add public word tables section
+    const tDiv = document.createElement('div');
+    tDiv.innerHTML = '<h3 class="section-title" style="font-size:1rem;margin-top:1.2rem">📋 جداول كلمات مضافة</h3><div id="public-word-tables"></div>';
+    nesreenSec.appendChild(tDiv);
+    // add public exams section
+    const eDiv = document.createElement('div');
+    eDiv.innerHTML = '<h3 class="section-title" style="font-size:1rem;margin-top:1.2rem">📝 الامتحانات المنشورة</h3><div id="public-exams"></div>';
+    nesreenSec.appendChild(eDiv);
+  }
+  renderPublicTables();
+  renderPublicExams();
+  renderAnnouncementBanner();
+  // apply custom settings
+  const s = lsGetObj('custom_settings');
+  if (s.siteTitle) { document.querySelector('.header-title').textContent = s.siteTitle+' ⚖️'; document.title = s.siteTitle; }
+});
+
+// ===== INIT =====
+renderGlossary();
+renderLaws();
+renderSentences();
+renderFlashcard();
+
+
+// ════════════════════════════════════════════════════
+// SOCIAL SYSTEM — Posts, Profile, Groups, Avatar
+// ════════════════════════════════════════════════════
+
+const LS_POSTS  = 'lt_posts_v1';
+const LS_GROUPS = 'lt_groups_v1';
+
+// ── helpers ──
+function lsPosts(){ try{ return JSON.parse(localStorage.getItem(LS_POSTS)||'[]'); }catch(e){ return []; } }
+function savePosts(p){ localStorage.setItem(LS_POSTS, JSON.stringify(p)); }
+function lsGroups(){ try{ return JSON.parse(localStorage.getItem(LS_GROUPS)||'[]'); }catch(e){ return []; } }
+function saveGroups(g){ localStorage.setItem(LS_GROUPS, JSON.stringify(g)); }
+
+function getAvatar(username){
+  const users = lsUsers();
+  if(users[username]?.avatar) return `<img src="${users[username].avatar}" />`;
+  return username ? username.charAt(0).toUpperCase() : '?';
+}
+function avatarHtml(username, size='sm'){
+  const cls = size==='sm' ? 'post-avatar-sm' : 'profile-avatar';
+  const users = lsUsers();
+  if(users[username]?.avatar) return `<div class="${cls}"><img src="${users[username].avatar}" /></div>`;
+  return `<div class="${cls}" style="background:var(--accent-light);color:var(--accent)">${username ? username.charAt(0).toUpperCase() : '?'}</div>`;
+}
+
+function timeAgo(ts){
+  const s = Math.floor((Date.now()-ts)/1000);
+  if(s<60) return 'الآن';
+  if(s<3600) return `${Math.floor(s/60)} دقيقة`;
+  if(s<86400) return `${Math.floor(s/3600)} ساعة`;
+  return `${Math.floor(s/86400)} يوم`;
+}
+
+// ── SOCIAL MODAL ──
+let currentFeedTab = 'all';
+function openSocialModal(){
+  if(!currentUser){ document.getElementById('auth-modal').classList.remove('hidden'); return; }
+  document.getElementById('social-modal').classList.remove('hidden');
+  // update composer avatar
+  const ca = document.getElementById('composer-avatar-sm');
+  const users = lsUsers();
+  if(ca){ ca.innerHTML = users[currentUser]?.avatar ? `<img src="${users[currentUser].avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : currentUser.charAt(0).toUpperCase(); }
+  renderFeed();
+}
+function closeSocialModal(){ document.getElementById('social-modal').classList.add('hidden'); }
+function switchFeedTab(tab){
+  currentFeedTab = tab;
+  document.querySelectorAll('.feed-tab').forEach((b,i) => b.classList.toggle('active', ['all','friends'][i]===tab));
+  renderFeed();
+}
+
+// ── POST COMPOSER ──
+let postImgData = null;
+function previewPostImg(){
+  const file = document.getElementById('post-img-input').files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    postImgData = e.target.result;
+    const prev = document.getElementById('post-img-preview');
+    prev.src = postImgData; prev.style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitPost(){
+  if(!currentUser) return;
+  const text = document.getElementById('post-text-input').value.trim();
+  if(!text && !postImgData) return;
+  const posts = lsPosts();
+  posts.unshift({ id: Date.now(), author: currentUser, text, img: postImgData||null, ts: Date.now(), likes:[], comments:[] });
+  savePosts(posts);
+  document.getElementById('post-text-input').value='';
+  document.getElementById('post-img-preview').style.display='none';
+  document.getElementById('post-img-preview').src='';
+  postImgData = null;
+  document.getElementById('post-img-input').value='';
+  renderFeed();
+}
+
+// ── FEED RENDER ──
+function renderFeed(){
+  const list = document.getElementById('feed-posts-list');
+  let posts = lsPosts();
+  const me = myData();
+  const friends = me?.friends||[];
+  if(currentFeedTab==='friends'){
+    posts = posts.filter(p => friends.includes(p.author) || p.author===currentUser);
+  }
+  if(!posts.length){
+    list.innerHTML='<div class="chat-empty" id="feed-empty-msg">لا يوجد بوستات بعد — كن أول واحد! 🚀</div>';
+    return;
+  }
+  list.innerHTML = posts.map(p => renderPostCard(p)).join('');
+}
+
+function renderPostCard(p){
+  const liked = (p.likes||[]).includes(currentUser);
+  const users = lsUsers();
+  const avatarSrc = users[p.author]?.avatar;
+  const avatarContent = avatarSrc
+    ? `<img src="${avatarSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+    : p.author.charAt(0).toUpperCase();
+  return `<div class="post-card" id="post-${p.id}">
+    <div class="post-header">
+      <div class="post-avatar-sm" style="background:var(--accent-light);color:var(--accent)">${avatarContent}</div>
+      <div style="flex:1">
+        <div class="post-author-name" onclick="openUserProfile('${p.author}')">${p.author}</div>
+        <div class="post-time">${timeAgo(p.ts)}</div>
+      </div>
+      ${p.author===currentUser ? `<button onclick="deletePost(${p.id})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.85rem;padding:0.2rem 0.4rem" title="حذف">✕</button>` : ''}
+    </div>
+    ${p.text ? `<div class="post-body">${escHtml(p.text)}</div>` : ''}
+    ${p.img  ? `<img class="post-image" src="${p.img}" loading="lazy" />` : ''}
+    <div class="post-actions">
+      <button class="post-action-btn ${liked?'liked':''}" onclick="toggleLike(${p.id})">
+        ${liked?'❤️':'🤍'} <span>${(p.likes||[]).length}</span>
+      </button>
+      <button class="post-action-btn" onclick="toggleComments(${p.id})">
+        💬 <span>${(p.comments||[]).length}</span>
+      </button>
+    </div>
+    <div class="post-comments" id="comments-${p.id}">
+      ${(p.comments||[]).map(c => `
+        <div class="comment-item">
+          <div class="comment-bubble">
+            <div class="comment-author">${c.author}</div>
+            <div class="comment-text">${escHtml(c.text)}</div>
+          </div>
+        </div>`).join('')}
+      <div class="comment-input-row">
+        <button class="bm-send-btn" onclick="addComment(${p.id})" style="font-size:0.75rem;padding:0.35rem 0.65rem">إرسال</button>
+        <input class="comment-input" type="text" id="comment-input-${p.id}" placeholder="اكتب تعليق..." onkeydown="if(event.key==='Enter')addComment(${p.id})" />
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleLike(postId){
+  if(!currentUser) return;
+  const posts = lsPosts();
+  const p = posts.find(x=>x.id===postId); if(!p) return;
+  if(!p.likes) p.likes=[];
+  const idx = p.likes.indexOf(currentUser);
+  if(idx>=0) p.likes.splice(idx,1); else p.likes.push(currentUser);
+  savePosts(posts);
+  renderFeed();
+}
+
+function toggleComments(postId){
+  const el = document.getElementById('comments-'+postId);
+  if(el) el.classList.toggle('open');
+}
+
+function addComment(postId){
+  if(!currentUser) return;
+  const input = document.getElementById('comment-input-'+postId);
+  const text = input?.value.trim(); if(!text) return;
+  const posts = lsPosts();
+  const p = posts.find(x=>x.id===postId); if(!p) return;
+  if(!p.comments) p.comments=[];
+  p.comments.push({ author:currentUser, text, ts:Date.now() });
+  savePosts(posts);
+  renderFeed();
+  // re-open comments
+  setTimeout(()=>{ const el=document.getElementById('comments-'+postId); if(el) el.classList.add('open'); },50);
+}
+
+function deletePost(postId){
+  if(!currentUser) return;
+  const posts = lsPosts().filter(p => !(p.id===postId && p.author===currentUser));
+  savePosts(posts);
+  renderFeed();
+}
+
+// ── PROFILE ──
+function openMyProfile(){ openUserProfile(currentUser); }
+function openUserProfile(username){
+  if(!username) return;
+  document.getElementById('profile-modal').classList.remove('hidden');
+  renderProfile(username);
+}
+function closeProfileModal(){ document.getElementById('profile-modal').classList.add('hidden'); }
+
+function renderProfile(username){
+  document.getElementById('profile-modal-title').textContent = username==='me'||username===currentUser ? '👤 بروفايلي' : '👤 '+username;
+  const body = document.getElementById('profile-modal-body');
+  const users = lsUsers();
+  const u = users[username]; if(!u) return;
+  const isMe = username===currentUser;
+  const myD = myData();
+  const isFriend = (myD?.friends||[]).includes(username);
+  const hasPending = (myD?.sentRequests||[]).includes(username);
+  const posts = lsPosts().filter(p=>p.author===username);
+  const coverColor = u.coverColor||'linear-gradient(135deg,#1e2235 0%,#2563eb 100%)';
+  const avatarContent = u.avatar
+    ? `<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+    : username.charAt(0).toUpperCase();
+
+  body.innerHTML = `
+    <div class="profile-cover" style="background:${coverColor}">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" onclick="${isMe?'document.getElementById(\'avatar-file-input\').click()':''}">
+          ${avatarContent}
+          ${isMe?'<div class="avatar-edit-btn">تغيير</div>':''}
+        </div>
+      </div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-username">${username}</div>
+      <div class="profile-bio" id="profile-bio-display">${escHtml(u.bio||'')}</div>
+      ${isMe?`<button onclick="editBio()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.2rem 0.6rem;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);cursor:pointer;margin-top:0.4rem">✏️ تعديل البايو</button>`:''}
+      <div class="profile-stats">
+        <div class="pstat"><div class="pstat-num">${posts.length}</div><div class="pstat-label">بوست</div></div>
+        <div class="pstat"><div class="pstat-num">${(u.friends||[]).length}</div><div class="pstat-label">صاحب</div></div>
+      </div>
+    </div>
+    <div class="profile-actions">
+      ${!isMe ? (isFriend
+        ? `<button class="mbtn primary" onclick="openChatWith('${username}');closeProfileModal()" style="padding:0.4rem 0.9rem;border-radius:8px;font-size:0.88rem">💬 راسله</button>`
+        : hasPending
+          ? `<button class="mbtn ghost" style="padding:0.4rem 0.9rem;border-radius:8px;font-size:0.88rem">طلب مُرسل ⏳</button>`
+          : `<button class="mbtn primary" onclick="sendFriendRequest('${username}');renderProfile('${username}')" style="padding:0.4rem 0.9rem;border-radius:8px;font-size:0.88rem">+ إضافة كصاحب</button>`
+      ) : ''}
+    </div>
+    <div class="profile-tab-bar">
+      <button class="profile-tab active" onclick="showProfileTab('posts','${username}')">البوستات</button>
+      <button class="profile-tab" onclick="showProfileTab('friends','${username}')">الأصحاب</button>
+    </div>
+    <div id="profile-tab-content" style="padding:0.8rem">
+      ${renderProfilePosts(posts)}
+    </div>`;
+}
+
+function renderProfilePosts(posts){
+  if(!posts.length) return '<div class="chat-empty">لا توجد بوستات بعد</div>';
+  return posts.map(p => renderPostCard(p)).join('');
+}
+
+function showProfileTab(tab, username){
+  document.querySelectorAll('.profile-tab').forEach((b,i)=>b.classList.toggle('active',['posts','friends'][i]===tab));
+  const content = document.getElementById('profile-tab-content');
+  if(!content) return;
+  const users = lsUsers();
+  const u = users[username];
+  if(tab==='posts'){
+    const posts = lsPosts().filter(p=>p.author===username);
+    content.innerHTML = renderProfilePosts(posts);
+  } else {
+    const friends = u?.friends||[];
+    if(!friends.length){ content.innerHTML='<div class="chat-empty">لا يوجد أصحاب بعد</div>'; return; }
+    content.innerHTML = friends.map(f=>`
+      <div class="friend-item" onclick="openUserProfile('${f}');closeProfileModal()" style="cursor:pointer">
+        <div class="friend-avatar">${f.charAt(0).toUpperCase()}</div>
+        <span class="friend-name">${f}</span>
+      </div>`).join('');
+  }
+}
+
+function editBio(){
+  const me = myData();
+  const bio = prompt('أدخل البايو الجديد:', me?.bio||'');
+  if(bio===null) return;
+  me.bio = bio.slice(0,120);
+  saveMyData(me);
+  renderProfile(currentUser);
+}
+
+// ── AVATAR UPLOAD ──
+function handleAvatarUpload(){
+  const file = document.getElementById('avatar-file-input').files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const me = myData();
+    me.avatar = e.target.result;
+    saveMyData(me);
+    // update composer avatar
+    const ca = document.getElementById('composer-avatar-sm');
+    if(ca) ca.innerHTML = `<img src="${me.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+    // update header status
+    renderProfile(currentUser);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── GROUPS ──
+function openGroupsModal(){
+  document.getElementById('groups-modal').classList.remove('hidden');
+  renderGroupsList();
+}
+function closeGroupsModal(){ document.getElementById('groups-modal').classList.add('hidden'); }
+
+function createGroup(){
+  if(!currentUser) return;
+  const name = document.getElementById('new-group-name').value.trim();
+  const icon = document.getElementById('new-group-icon').value.trim()||'💬';
+  if(!name){ alert('اكتب اسم للجروب'); return; }
+  const groups = lsGroups();
+  if(groups.find(g=>g.name===name)){ alert('الاسم ده موجود بالفعل'); return; }
+  groups.push({ id:Date.now(), name, icon, creator:currentUser, members:[currentUser], messages:[], created:Date.now() });
+  saveGroups(groups);
+  document.getElementById('new-group-name').value='';
+  renderGroupsList();
+}
+
+function renderGroupsList(){
+  const groups = lsGroups();
+  const el = document.getElementById('groups-list');
+  if(!groups.length){ el.innerHTML='<div class="chat-empty">لا توجد جروبات بعد — إنشئ واحد! 🎓</div>'; return; }
+  el.innerHTML = groups.map(g => {
+    const isMember = (g.members||[]).includes(currentUser);
+    return `<div class="group-card" onclick="openGroupChat(${g.id})">
+      <div class="group-icon">${g.icon}</div>
+      <div style="flex:1">
+        <div class="group-name">${escHtml(g.name)}</div>
+        <div class="group-meta">${g.members.length} عضو · by ${g.creator}</div>
+      </div>
+      <button class="group-join-btn ${isMember?'joined':''}" onclick="event.stopPropagation();toggleGroupJoin(${g.id})">${isMember?'مغادرة':'انضم'}</button>
+    </div>`;
+  }).join('');
+}
+
+function toggleGroupJoin(groupId){
+  if(!currentUser) return;
+  const groups = lsGroups();
+  const g = groups.find(x=>x.id===groupId); if(!g) return;
+  if(!g.members) g.members=[];
+  const idx = g.members.indexOf(currentUser);
+  if(idx>=0){ if(g.creator===currentUser){ alert('أنت صاحب الجروب ده مش تقدر تغادر'); return; } g.members.splice(idx,1); }
+  else g.members.push(currentUser);
+  saveGroups(groups);
+  renderGroupsList();
+}
+
+let activeGroupId = null;
+function openGroupChat(groupId){
+  const groups = lsGroups();
+  const g = groups.find(x=>x.id===groupId); if(!g) return;
+  if(!(g.members||[]).includes(currentUser)){ alert('لازم تنضم للجروب الأول'); return; }
+  activeGroupId = groupId;
+  document.getElementById('group-chat-title').textContent = g.icon+' '+g.name;
+  document.getElementById('group-chat-modal').classList.remove('hidden');
+  renderGroupMessages(groupId);
+}
+function closeGroupChatModal(){ document.getElementById('group-chat-modal').classList.add('hidden'); activeGroupId=null; }
+
+function renderGroupMessages(groupId){
+  const groups = lsGroups();
+  const g = groups.find(x=>x.id===groupId); if(!g) return;
+  const area = document.getElementById('group-chat-messages');
+  const msgs = g.messages||[];
+  if(!msgs.length){ area.innerHTML='<div class="chat-empty">لا توجد رسائل — ابدأ المحادثة 💬</div>'; return; }
+  area.innerHTML = msgs.map(m=>{
+    const isMine=m.from===currentUser;
+    const time=new Date(m.ts).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="chat-msg ${isMine?'mine':'theirs'}">
+      ${!isMine?`<div class="chat-sender">${m.from}</div>`:''}
+      <div class="chat-bubble">${escHtml(m.text)}</div>
+      <div class="chat-time">${time}</div>
+    </div>`;
+  }).join('');
+  area.scrollTop=area.scrollHeight;
+}
+
+function sendGroupMsg(){
+  if(!activeGroupId||!currentUser) return;
+  const input=document.getElementById('group-msg-input');
+  const text=input.value.trim(); if(!text) return;
+  input.value='';
+  const groups=lsGroups();
+  const g=groups.find(x=>x.id===activeGroupId); if(!g) return;
+  if(!g.messages) g.messages=[];
+  g.messages.push({ from:currentUser, text, ts:Date.now() });
+  saveGroups(groups);
+  renderGroupMessages(activeGroupId);
+}
+
+// ── ADMIN: EDIT EXISTING TABLES ──
+let editingTableType = null; // 'glossary' | 'sentences' | index of custom table
+let editingTableData = [];
+
+function openEditBuiltinTable(type){
+  editingTableType = type;
+  const rows = type==='glossary'
+    ? glossary.map(g=>({en:g.en, ar:g.ar, extra:g.extra||''}))
+    : sentences.map(s=>({en:s.en, ar:s.ar}));
+  editingTableData = JSON.parse(JSON.stringify(rows));
+  renderEditTableModal(type==='glossary' ? 'تعديل المصطلحات' : 'تعديل الجمل');
+}
+
+function openEditCustomTable(idx){
+  editingTableType = 'custom_'+idx;
+  const tables = lsGet('word_tables');
+  if(!tables||!tables[idx]) return;
+  editingTableData = JSON.parse(JSON.stringify(tables[idx].rows||[]));
+  renderEditTableModal('تعديل: '+tables[idx].title);
+}
+
+function renderEditTableModal(title){
+  document.getElementById('edit-table-modal').classList.remove('hidden');
+  document.querySelector('#edit-table-modal h2').textContent = '✏️ '+title;
+  renderEditRows();
+}
+
+function renderEditRows(){
+  const container = document.getElementById('edit-table-rows');
+  container.innerHTML = editingTableData.map((row,i)=>`
+    <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;align-items:center;direction:ltr">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);width:20px;text-align:center">${i+1}</span>
+      <input class="inline-edit-input" value="${escHtml(row.en||'')}" oninput="editingTableData[${i}].en=this.value" placeholder="English" style="flex:1;direction:ltr" />
+      <input class="inline-edit-input" value="${escHtml(row.ar||'')}" oninput="editingTableData[${i}].ar=this.value" placeholder="العربية" style="flex:1;direction:rtl" />
+      <button onclick="removeEditRow(${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:1rem;padding:0 0.2rem">✕</button>
+    </div>`).join('');
+}
+
+function addEditTableRow(){
+  editingTableData.push({en:'',ar:''});
+  renderEditRows();
+}
+
+function removeEditRow(i){
+  editingTableData.splice(i,1);
+  renderEditRows();
+}
+
+function closeEditTableModal(){ document.getElementById('edit-table-modal').classList.add('hidden'); }
+
+function saveEditedTable(){
+  const rows = editingTableData.filter(r=>r.en||r.ar);
+  if(editingTableType==='glossary'){
+    // update glossary array in place
+    glossary.length=0;
+    rows.forEach((r,i)=>glossary.push({n:i+1, en:r.en, ar:r.ar, extra:r.extra||''}));
+    renderGlossary();
+    // save to localStorage so it persists
+    lsSet('edited_glossary', glossary);
+    alert('تم حفظ التعديلات على المصطلحات ✓');
+  } else if(editingTableType==='sentences'){
+    sentences.length=0;
+    rows.forEach((r,i)=>sentences.push({n:i+1, en:r.en, ar:r.ar}));
+    renderSentences();
+    lsSet('edited_sentences', sentences);
+    alert('تم حفظ التعديلات على الجمل ✓');
+  } else if(editingTableType?.startsWith('custom_')){
+    const idx = parseInt(editingTableType.split('_')[1]);
+    const tables = lsGet('word_tables')||[];
+    tables[idx].rows = rows;
+    lsSet('word_tables', tables);
+    renderPublicTables();
+    alert('تم حفظ التعديلات ✓');
+  }
+  closeEditTableModal();
+}
+
+// Load edited tables if saved previously
+(function loadEditedData(){
+  const eg = lsGet('edited_glossary');
+  if(eg&&eg.length){ glossary.length=0; eg.forEach(g=>glossary.push(g)); }
+  const es = lsGet('edited_sentences');
+  if(es&&es.length){ sentences.length=0; es.forEach(s=>sentences.push(s)); }
+})();
+
+// populate custom tables list in edit tab
+function loadEditCustomTablesList(){
+  const tables = lsGet('word_tables')||[];
+  const el = document.getElementById('ap-edit-custom-tables');
+  if(!el) return;
+  if(!tables.length){ el.innerHTML='<p style="font-size:0.9rem;color:var(--muted);direction:rtl">لا توجد جداول مضافة</p>'; return; }
+  el.innerHTML = tables.map((t,i)=>
+    `<button class="ap-btn" style="margin-left:0.4rem;margin-bottom:0.4rem" onclick="openEditCustomTable(${i})">📋 ${escHtml(t.title)}</button>`
+  ).join('');
+}
+
+// hook into switchAdminTab
+const _origSwitchAdminTab = switchAdminTab;
+switchAdminTab = function(id){
+  _origSwitchAdminTab(id);
+  if(id==='ap-edit-tables') loadEditCustomTablesList();
+};
+
+// ── GROUP CHAT POLL ──
+setInterval(()=>{
+  if(activeGroupId && !document.getElementById('group-chat-modal').classList.contains('hidden')){
+    renderGroupMessages(activeGroupId);
+  }
+}, 2000);
+
+
+</script>
+
+<!-- FRIENDS MODAL -->
+<div id="friends-modal" class="overlay hidden">
+  <div class="big-modal-box">
+    <div class="bm-header">
+      <h3>👥 أصحابي</h3>
+      <button class="bm-close" onclick="closeFriendsModal()">✕</button>
+    </div>
+    <div class="bm-body">
+      <input class="search-input" type="text" id="friend-search-input" placeholder="ابحث عن صاحب بالاسم..." oninput="searchUsers()" autocomplete="off" />
+      <div id="friend-search-results"></div>
+      <div id="friend-requests-section" style="display:none">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:0.5rem;direction:ltr">FRIEND REQUESTS</div>
+        <div id="friend-requests-list"></div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:0.5rem;direction:ltr">MY FRIENDS</div>
+      <div id="friends-list"><div class="chat-empty">محدش في قائمتك لسه 👀</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT MODAL -->
+<div id="chat-modal" class="overlay hidden">
+  <div class="big-modal-box">
+    <div class="bm-header">
+      <h3 id="chat-modal-title">💬 الشات</h3>
+      <button class="bm-close" onclick="closeChatModal()">✕</button>
+    </div>
+    <div class="chat-tab-bar" id="chat-tabs"></div>
+    <div class="bm-body" id="chat-messages-area">
+      <div class="chat-empty">اختار محادثة من الأعلى أو كلّم صاحبك من قائمة الأصحاب 📩</div>
+    </div>
+    <div class="bm-footer" id="chat-footer" style="display:none">
+      <button class="bm-send-btn" onclick="sendChatMsg()">إرسال ↑</button>
+      <input class="bm-input" type="text" id="chat-msg-input" placeholder="اكتب رسالة..." onkeydown="if(event.key==='Enter')sendChatMsg()" autocomplete="off" />
+    </div>
+  </div>
+</div>
+
+
+<!-- SOCIAL FEED MODAL -->
+<div id="social-modal" class="overlay hidden">
+  <div class="social-modal-box">
+    <div class="sm-header">
+      <h3 id="social-modal-title">🌐 الفيد</h3>
+      <div style="display:flex;gap:0.5rem;align-items:center">
+        <button class="hbtn social" onclick="openGroupsModal()" style="font-size:0.65rem;padding:0.2rem 0.55rem">👥 الجروبات</button>
+        <button class="sm-close" onclick="closeSocialModal()">✕</button>
+      </div>
+    </div>
+    <div class="feed-tabs">
+      <button class="feed-tab active" onclick="switchFeedTab('all')">📰 الكل</button>
+      <button class="feed-tab" onclick="switchFeedTab('friends')">👥 أصحابي</button>
+    </div>
+    <div class="sm-body" id="social-feed-body">
+      <!-- composer -->
+      <div class="feed-section" id="feed-composer-section">
+        <div class="post-composer">
+          <div class="post-composer-row">
+            <div class="post-avatar-sm" id="composer-avatar-sm"></div>
+            <textarea class="post-textarea" id="post-text-input" placeholder="إيه اللي في دماغك؟ اكتب بوست..." rows="3"></textarea>
+          </div>
+          <img id="post-img-preview" class="post-img-preview" />
+          <div class="post-composer-actions">
+            <button class="mbtn primary" style="padding:0.4rem 1rem;border-radius:8px;font-size:0.9rem" onclick="submitPost()">نشر ✓</button>
+            <div style="display:flex;gap:0.4rem">
+              <label style="cursor:pointer;background:var(--cream);border:1px solid var(--border);border-radius:7px;padding:0.35rem 0.6rem;font-size:0.85rem" title="أضف صورة">
+                🖼️ <input type="file" id="post-img-input" accept="image/*" style="display:none" onchange="previewPostImg()" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feed-section" id="feed-posts-list">
+        <div class="chat-empty" id="feed-empty-msg">لا يوجد بوستات بعد — كن أول واحد! 🚀</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal" class="overlay hidden">
+  <div class="social-modal-box">
+    <div class="sm-header">
+      <h3 id="profile-modal-title">👤 البروفايل</h3>
+      <button class="sm-close" onclick="closeProfileModal()">✕</button>
+    </div>
+    <div class="sm-body" id="profile-modal-body">
+      <!-- filled dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- GROUPS MODAL -->
+<div id="groups-modal" class="overlay hidden">
+  <div class="social-modal-box">
+    <div class="sm-header">
+      <h3>👥 الجروبات</h3>
+      <button class="sm-close" onclick="closeGroupsModal()">✕</button>
+    </div>
+    <div class="sm-body">
+      <!-- create group -->
+      <div style="padding:0.9rem;border-bottom:1px solid var(--border)">
+        <div style="display:flex;gap:0.5rem;align-items:center;direction:rtl">
+          <input type="text" id="new-group-name" placeholder="اسم الجروب الجديد..." class="bm-input" style="flex:1" />
+          <input type="text" id="new-group-icon" placeholder="🎓" style="width:46px;border:1.5px solid var(--border-strong);border-radius:8px;padding:0.5rem;text-align:center;font-size:1.2rem" maxlength="2" />
+          <button class="bm-send-btn" onclick="createGroup()">+ إنشاء</button>
+        </div>
+      </div>
+      <!-- group list -->
+      <div style="padding:0.8rem" id="groups-list">
+        <div class="chat-empty">لا توجد جروبات بعد</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP CHAT MODAL -->
+<div id="group-chat-modal" class="overlay hidden">
+  <div class="social-modal-box">
+    <div class="sm-header">
+      <h3 id="group-chat-title">جروب شات</h3>
+      <button class="sm-close" onclick="closeGroupChatModal()">✕</button>
+    </div>
+    <div class="sm-body" id="group-chat-messages" style="padding:0.8rem">
+      <div class="chat-empty">لا توجد رسائل بعد</div>
+    </div>
+    <div class="bm-footer">
+      <button class="bm-send-btn" onclick="sendGroupMsg()">إرسال ↑</button>
+      <input class="bm-input" type="text" id="group-msg-input" placeholder="اكتب رسالة للجروب..." onkeydown="if(event.key==='Enter')sendGroupMsg()" />
+    </div>
+  </div>
+</div>
+
+<!-- EDIT TABLE MODAL (Admin) -->
+<div id="edit-table-modal" class="overlay hidden">
+  <div class="modal-box" style="max-width:520px;text-align:right;direction:rtl">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink)">✏️ تعديل الجدول</h2>
+      <button class="sm-close" onclick="closeEditTableModal()" style="color:var(--muted)">✕</button>
+    </div>
+    <div id="edit-table-rows"></div>
+    <div style="display:flex;gap:0.5rem;margin-top:0.8rem;justify-content:flex-end">
+      <button class="mbtn ghost" onclick="addEditTableRow()">+ إضافة سطر</button>
+      <button class="mbtn primary" onclick="saveEditedTable()">💾 حفظ التعديلات</button>
+    </div>
+  </div>
+</div>
+
+<!-- AVATAR FILE INPUT (hidden) -->
+<input type="file" id="avatar-file-input" accept="image/*" style="display:none" onchange="handleAvatarUpload()" />
+
+</body>
+</html>
